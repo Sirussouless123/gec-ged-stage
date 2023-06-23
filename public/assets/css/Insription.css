@@ -248,7 +248,7 @@ body {
     justify-content: center;
     background: --body-color;
 }
-.container {
+.container-ins {
     position: relative;
     max-width: 900px;
     width: 100%;
@@ -259,13 +259,13 @@ body {
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
     margin-left: 200px;
 }
-.container .head {
+.container-ins .head {
     position: relative;
     font-size: 20px;
     font-weight: 600;
     color: #333;
 }
-.container .head::before {
+.container-ins .head::before {
     content: "";
     position: absolute;
     left: 0;
@@ -275,16 +275,16 @@ body {
     border-radius: 8px;
     background-color: #a5bbf7;
 }
-.container form {
+.container-ins form {
     position: relative;
     margin-top: 16px;
     min-height: 400px;
     background-color: #fff;
 }
-.container form .details {
+.container-ins form .details {
     margin-top: 30px;
 }
-.container form .title {
+.container-ins form .title {
     display: block;
     margin-bottom: 8px;
     font-size: 16px;
@@ -292,7 +292,7 @@ body {
     margin: 6px 0;
     color: "333";
 }
-.container form .fields {
+.container-ins form .fields {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -323,7 +323,22 @@ form .fields .input-field {
 .input-field input:is(:focus, :valid) {
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.13);
 } 
-.container form button {
+
+.input-field select {
+    outline: none;
+    font-size: 14px;
+    font-weight: 400;
+    color: #333;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    padding: 0 15px;
+    height: 42px;
+    margin: 8px;
+}
+.input-field select:is(:focus, :valid) {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.13);
+} 
+.container-ins form button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -343,10 +358,10 @@ form button:hover {
     background-color: #92acf5;
 }
 @media (max-width: 750px) {
-    .container form {
+    .container-ins form {
         overflow-y: scroll;
     }
-    .container form::-webkit-scrollbar{
+    .container-ins form::-webkit-scrollbar{
         display: none;
     }
     form .fields .input-field{

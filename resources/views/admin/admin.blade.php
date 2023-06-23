@@ -36,6 +36,10 @@
                 <a  href="{{ route('admin.category.index')}}"    @class(['nav-link',
                 'active'=>str_contains($route,'category')])>Catégories</a>
               </li>
+              <li class="nav-item nav-link text-decoration-none">
+                <a  href="{{ route('logout')}}">Déconnexion</a>
+              </li>
+              
               
             </ul>
 

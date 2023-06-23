@@ -257,7 +257,7 @@ body.dark .menu-bar .mode i.moon{
 body.dark .switch::before{
     left: 24px;
 }
-.container {
+.container-main {
     display: grid;
     width: 96%;
     margin: 0 auto;
@@ -266,7 +266,7 @@ body.dark .switch::before{
     transition: all .5s ease;
 }
 
-.container.active {
+.container-main.active {
     grid-template-columns: 78px auto; 
 }
 

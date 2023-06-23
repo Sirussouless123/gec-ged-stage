@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-<div class="">
+
 
     <header class="head">Connexion</header>
 
@@ -39,6 +39,6 @@
             </div>
         </div>
     </form>
-</div>
+
 
 @endsection

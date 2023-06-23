@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@yield('title')</title>
+   
     <link rel="stylesheet" href="{{ asset('assets/css/Document.css')}}" />
     <link
       rel="stylesheet"
@@ -17,7 +18,22 @@
     @yield('links')
   </head>
   <body>
-    <div class="container">
+    @php
+        $route = request()->route()->getName();
+        if ( str_contains($route,'home') ){
+             $class = 'container-main';
+        }elseif(str_contains($route,'register')){
+          $class = 'container-ins';
+        }elseif(str_contains($route,'login')){
+          $class = 'container-log';
+        }elseif(str_contains($route,'user.document.index')){
+          $class = 'container-main';
+        }elseif(str_contains($route,'user.document.create')){
+          $class = 'container-ins';
+        }
+        
+    @endphp
+    <div class="{{$class}} ">
       <aside>
         <nav class="sidebar">
           <header>
@@ -44,6 +60,7 @@
                 </li>
               </div>
 
+
               <div class="menu-links">
                 <li class="nav-link ">
                   <a href="{{ route('home')}}" >
@@ -52,7 +69,7 @@
                   </a>
                 </li>
               </div>
-              
+               @if (!(Session::has('status')))
               <div class="menu-links">
                 <li class="nav-link">
                   <a href="{{route('register')}}">
@@ -70,11 +87,12 @@
                   </a>
                 </li>
               </div>
-              
+              @endif
+            @if(Session::has('status'))
   <div class="accordion accordion-flush color-accordion" id="accordionFlushExample ">
     <div class="accordion-item">
       <h2 class="accordion-header d-flex align-items-center justify-content-space-around" id="flush-headingOne">
-   <a>
+   <a href="{{ route('user.document.index')}}">
         <span class="material-symbols-sharp " style=" color: #0d6efd;" >folder_open</span>
    </a>  
         <span class="accordion-button collapsed text nav-text"  data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
@@ -85,10 +103,10 @@
       <div id="flush-collapseOne" class="accordion-collapse collapse link-visibility-item" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
         <ul class="list-document d-flex flex-column  justify-content-start ">
             <li>
-                <a href="#"  >Ajouter document</a>
+                <a href="{{route('user.document.create')}}"  >Ajouter document</a>
             </li>
             <li>
-                <a href="#" >Voir documents
+                <a href="{{route('user.document.index')}}" >Voir documents
 
                 </a>
             </li>
@@ -102,7 +120,7 @@
               <div class="accordion accordion-flush color-accordion" id="accordionFlushExample2 ">
                 <div class="accordion-item">
                   <h2 class="accordion-header d-flex align-items-center justify-content-space-around" id="flush-heading2">
-               <a>
+               <a href="">
                     <span class="material-symbols-sharp " style=" color: #0d6efd;" >dynamic_feed</span>
                </a>  
                     <span class="accordion-button collapsed text nav-text"  data-bs-toggle="collapse" data-bs-target="#flush-collapse2" aria-expanded="false" aria-controls="flush-collapse2">
@@ -125,11 +143,12 @@
                 
               </div>
                            
-                        
+  
                           </div>
+                          @endif
               <div class="menu-links">
                 <li class="nav-link">
-                  <a href="#">
+                  <a href="{{route('logout')}}">
                     <span class="material-symbols-sharp">logout </span>
                     <span class="text nav-text mx-3">Déconnexion</span>
                   </a>
@@ -151,16 +170,11 @@
           </div>
         </nav>
       </aside>
-      <main>
-      @yield('content')
-    
-        {{-- <div class="head">
-          <h1>Bienvenue chez nous</h1>
-          <img src="Online document-rafiki.svg" class="img" />
-          <img src="Envelope-amico.svg" class="img" />
-        </div> --}}
-     
-    
+      <main >
+        
+          @yield('content')
+        
+      
     </main>
     </div>
        @yield('js')

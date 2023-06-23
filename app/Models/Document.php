@@ -8,4 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Document extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'nomDoc',
+        'formatDoc',
+        'dateVersion',
+        'numeroVersion',
+        'taille',
+        'type',
+        'service_id',
+        'user_id',
+    ];
+
+    public function getRouteKeyName(): string
+    {
+        return 'idDoc';
+    }
 }

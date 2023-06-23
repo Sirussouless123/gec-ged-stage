@@ -26,8 +26,8 @@ body {
 
 }
 body{
-    height: 100vh;
-    background: var(--body-color);
+    height: 100vh  ;
+    background: var(--body-color) !important;
     transition: var(--tran-04);
 }
 body.dark{
@@ -263,7 +263,7 @@ body.dark .menu-bar .mode i.moon{
 body.dark .switch::before{
     left: 24px;
 }
-.container {
+.container-main {
     display: grid;
     width: 96%;
     margin: 0 auto;
@@ -272,7 +272,7 @@ body.dark .switch::before{
     transition: all .5s ease;
 }
 
-.container.active {
+.container-main.active  {
     grid-template-columns: 78px auto; 
 }
 
@@ -299,15 +299,15 @@ main {
 .delib {
     position: relative;
     display: grid;
-    grid-template-columns: repeat(4, 280px);
+    grid-template-columns: repeat(4, 320px);
     gap: 2em;
 }
 
 .delib .trim {
     /* margin-bottom: 1rem; */
-    width: 280px;
+    width: 320px;
     height: 115px;
-    background: #fff;
+    background: #fff !important;
     padding: 15px;
     border-radius: 20px;
 }

@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('title','Accueil')
+@section('links')
+
+<link rel="stylesheet" href="{{ asset('assets/css/Accueil.css')}}" />
+@endsection
 
 @section('content')
 <div class="head">
