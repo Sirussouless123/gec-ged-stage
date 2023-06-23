@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Service extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'nomSer',
+        'department_id',
+    ];
+
+    public function getRouteKeyName(): string
+    {
+        return 'idSer';
+    }
 }

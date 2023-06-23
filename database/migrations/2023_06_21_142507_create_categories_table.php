@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('idCat');
             $table->string('nomCat');
             $table->foreignIdFor('App\Models\User')->constrained()->cascadeOnUpdate();
+            $table->timestamps();
         });
     }
 

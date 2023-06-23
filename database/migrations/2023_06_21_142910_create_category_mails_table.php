@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignIdFor('App\Models\Category')->constrained()->cascadeOnUpdate();
             $table->foreignIdFor('App\Models\Mail')->constrained()->cascadeOnUpdate();
             $table->date('dateAjout');
+            $table->timestamps();
           
         });
     }

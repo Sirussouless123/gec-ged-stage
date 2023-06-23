@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('idSer');
             $table->string('nomSer');
             $table->foreignIdFor('App\Models\Department')->constrained()->cascadeOnUpdate();
+            $table->timestamps();
            
         });
     }

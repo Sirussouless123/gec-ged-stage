@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Department extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'nomDep',
+    ];
+
+    public function getRouteKeyName(): string
+    {
+        return 'idDep';
+    }
 }

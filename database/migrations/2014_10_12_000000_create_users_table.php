@@ -20,9 +20,9 @@ return new class extends Migration
             $table->date('dateNaissance');
             $table->boolean('statut')->default(0);
             $table->string('villeNaissance');
-            $table->dateTime('crée_a');
+            $table->dateTime('cree_a');
             $table->foreignIdFor('App\Models\Service')->constrained()->cascadeOnUpdate();
-            
+            $table->timestamps();
         });
     }
 

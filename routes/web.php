@@ -1,7 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\DepartmentController;
+use App\Http\Controllers\Admin\ServiceController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\AuthentificationController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -18,5 +23,17 @@ Route::get('/', function () {
     return view('user.index');
 })->name('home');
 
-Route::get('/register',[AuthController::class,'show'])->name('register');
-Route::get('/login',[AuthController::class,'showLogin'])->name('login');
+
+Route::prefix('admin')->name('admin.')->group( function(){
+   Route::resource('department',DepartmentController::class)->except('show');
+   Route::resource('service',ServiceController::class)->except('show');
+   Route::resource('category',CategoryController::class)->except('show');
+});
+
+Route::get('/register',[AuthentificationController::class,'show'])->name('register');
+Route::post('/register',[AuthentificationController::class,'registerUser']);
+Route::get('/login',[AuthentificationController::class,'showLogin'])->name('login');
+Route::post('/login',[AuthentificationController::class,'loginUser']);
+
+
+

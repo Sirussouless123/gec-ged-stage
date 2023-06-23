@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('dateDepot');
             $table->foreignIdFor('App\Models\Service')->constrained()->cascadeOnUpdate();
             $table->foreignIdFor('App\Models\User')->constrained()->cascadeOnUpdate();
+            $table->timestamps();
         });
     }
 
