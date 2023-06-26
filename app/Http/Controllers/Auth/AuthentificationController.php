@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\loginRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SignupRequest;
+use App\Models\Category;
 use Illuminate\Support\Facades\Hash;
 
 class AuthentificationController extends Controller
@@ -61,13 +62,14 @@ class AuthentificationController extends Controller
                     [
                         'loginId'=>$user->id,
                         'status'=> 'isLogin',
-                        'statut'=>$user->statut
+                        'statut'=>$user->statut,
                     ]
                 );
               
               if ($request->session()->has('statut') && session('statut') == 1){
                 return to_route('admin.department.index');
               }else{
+                
                 return to_route('user.document.index');
               }
                

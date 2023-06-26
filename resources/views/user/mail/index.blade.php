@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Documents')
+@section('title', 'Courriers')
 
 @section('content')
 
@@ -10,32 +10,28 @@
 
       <div class="delib my-5 ">
   
-          @foreach ($documents as $document)
+          @foreach ($mails as $mail)
          
               <div class="trim  ">
                   <div class="icone">
-                      <span >Version : {{ $document->numeroVersion }}</span>
+                      <span >Date et heure  : {{ $mail->dateDepot }}- {{ $mail->heureDepot }}</span>
                         
                   </div>
                   <div class="info">
                       <h3>Nom :</h3>
-                      <h3>{{ $document->nomDoc }}</h3>
-                      <a href="{{ route('user.document.edit', ['document' => $document]) }}"
+                      <h3>{{ $mail->nomMail }}</h3>
+                      <a href="{{ route('user.mail.edit', ['mail' => $mail]) }}"
                           style="text-decoration:none;color : black; " class='bx bxs-folder'>
                       </a>
-                      <a href="{{ route('user.downloading',['document'=>$document])}}" style="text-decoration:none;color : black; " class='bx bxs-download'>
+                      {{-- {{ route('user.downloading.mail',['mail'=>$mail])}} --}}
+                      <a href="#" style="text-decoration:none;color : black; " class='bx bxs-download'>
                       </a>
-                      <form action="{{ route('user.document.destroy', ['document' => $document]) }}" method="post" class="pb-3">
+                      <form action="{{ route('user.mail.destroy', ['mail' => $mail]) }}" method="post" class="pb-3">
                           @csrf
                           @method('delete')
                           <button class='bx bxs-trash' style="border: none;"> </button>
   
                       </form>
-  
-  
-  
-  
-  
                   </div>
              
               </div>

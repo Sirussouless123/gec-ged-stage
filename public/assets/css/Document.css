@@ -299,8 +299,9 @@ main {
 .delib {
     position: relative;
     display: grid;
-    grid-template-columns: repeat(4, 320px);
+    grid-template-columns: repeat(3, 320px);
     gap: 2em;
+    overflow: hidden;
 }
 
 .delib .trim {
@@ -314,7 +315,7 @@ main {
 .info {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     padding: 20px;
 }
 

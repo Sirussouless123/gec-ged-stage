@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class AdminMiddleware
+class UserMiddleware
 {
     /**
      * Handle an incoming request.
@@ -15,13 +15,10 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-
-        if (!($request->session()->has('status') && session('status') == 'isLogin')){
-
-           
-            return to_route('login')->with('fail','Veuillez vous connecter');
-        }else{
-            return  $next($request);
-        }
+         if ($request->session()->has('statut') && session('statut') == 1){
+            return $next($request);
+         }else{
+             return to_route('login')->with('fail','Veuillez vous connecter');
+         }  
     }
 }

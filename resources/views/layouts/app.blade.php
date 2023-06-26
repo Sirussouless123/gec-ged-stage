@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/Document.css')}}" />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/icon?family=Material+Symbols+Sharp"
+      href="?family=Material+Symbols+Sharp"
     />
     <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
@@ -26,9 +26,12 @@
           $class = 'container-ins';
         }elseif(str_contains($route,'login')){
           $class = 'container-log';
-        }elseif(str_contains($route,'user.document.index')){
+        }elseif(str_contains($route,'user.document.index') || str_contains($route,'user.mail.index') ){
           $class = 'container-main';
-        }elseif(str_contains($route,'user.document.create')){
+        }elseif(str_contains($route,'user.document.create') || str_contains($route,'user.mail.index')){
+          $class = 'container-ins';
+        }
+        elseif(str_contains($route,'user.document.edit') || str_contains($route,'user.mail.index')){
           $class = 'container-ins';
         }
         
@@ -114,7 +117,9 @@
     </div>
     
   </div>
-               
+               @php
+                 $categories = DB::table('categories')->get();
+               @endphp
             
               </div>
               <div class="accordion accordion-flush color-accordion" id="accordionFlushExample2 ">
@@ -130,14 +135,23 @@
                   </h2>
                   <div id="flush-collapse2" class="accordion-collapse collapse link-visibility-item" aria-labelledby="flush-heading2" data-bs-parent="#accordionFlushExample2">
                     <ul class="list-document d-flex flex-column  justify-content-start ">
-                        <li>
-                            <a href="#"  >Ajouter courrier</a>
-                        </li>
-                        <li>
-                            <a href="#" >
-                                Voir courriers
-                            </a>
-                        </li>
+                      <li>
+                        <a href="#"  >Ajouter courrier</a>
+                    </li>
+                    <li>
+                      <a href="{{route('user.mail.index')}}" >
+                          Voir courriers
+                      </a>
+                  </li>
+                    @foreach ($categories as $category)
+                        
+                    <li>
+                      <a href="#" >
+                         {{$category->nomCat}}
+                      </a>
+                  </li>
+                 
+                    @endforeach
                      </ul>
                 </div>
                 

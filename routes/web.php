@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ServiceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthentificationController;
 use App\Http\Controllers\User\DocumentController;
+use App\Http\Controllers\User\MailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,14 +24,15 @@ Route::get('/', function () {
 })->name('home');
 
 
-Route::prefix('admin')->name('admin.')->middleware(['isAdmin'])->group( function(){
+Route::prefix('admin')->name('admin.')->middleware(['isAdmin','user'])->group( function(){
    Route::resource('department',DepartmentController::class)->except('show');
    Route::resource('service',ServiceController::class)->except('show');
    Route::resource('category',CategoryController::class)->except('show');
 });
 Route::prefix('user')->name('user.')->middleware(['isAdmin'])->group( function(){
    Route::resource('document',DocumentController::class)->except('show');
-
+   Route::resource('mail',MailController::class)->except('show');
+   Route::get('/download/{document}',[DocumentController::class,'download'])->name('downloading');
 });
 
 

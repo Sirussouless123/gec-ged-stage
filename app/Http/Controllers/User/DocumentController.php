@@ -6,7 +6,9 @@ use App\Models\Service;
 use App\Models\Document;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\User\DocumentRequest;
 
 class DocumentController extends Controller
@@ -49,21 +51,30 @@ class DocumentController extends Controller
 
         $data = $request->validated();
 
-        $document->storeAs('doc_'.session('loginId'), $data['nomDoc'].".".$format,'public');
+        
+        $verif = DB::table('documents')->where('numeroVersion',$data['numeroVersion'])->exists();
 
-        $create = Document::create([
-            'nomDoc'=>$data['nomDoc'],
-            'formatDoc'=>$format,
-            'dateVersion'=>$dateVersion,
-            'numeroVersion'=>$data['numeroVersion'],
-            'taille'=>$taille,
-            'type'=>$data['type'],
-            'service_id'=>$data['service_id'],
-            'user_id'=>session('loginId'),
-        ]);
-        if ($create->exists()){
-            return to_route('user.document.index');
+        if ( $verif == true){
+            return to_route('user.document.create')->with('fail', 'Changez la version du document ');
+        }else{
+            $document->storeAs('doc_'.session('loginId'), $data['nomDoc'].'-version-'.$data['numeroVersion'].".".$format,'public');
+
+
+            $create = Document::create([
+                'nomDoc'=>$data['nomDoc'],
+                'formatDoc'=>$format,
+                'dateVersion'=>$dateVersion,
+                'numeroVersion'=>$data['numeroVersion'],
+                'taille'=>$taille,
+                'type'=>$data['type'],
+                'service_id'=>$data['service_id'],
+                'user_id'=>session('loginId'),
+            ]);
+            if ($create->exists()){
+                return to_route('user.document.index');
+            }
         }
+
         
     }
 
@@ -78,24 +89,77 @@ class DocumentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Document $document)
     {
-        //
+        $services = Service::all();
+         return view('user.document.form',[
+            'document'=>$document,
+            'services'=>$services,
+         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update( Document $document ,DocumentRequest $request)
     {
-        //
+
+       
+           $data = $request->validated();
+          
+           $documentUpdate = $request->validated('document');
+            $format = $documentUpdate->getClientOriginalExtension();
+            $taille = $documentUpdate->getSize();
+            $date = date('Y-m-d');
+           $oldname = $document->nomDoc.'-version-'.$data['numeroVersion'].'.'.$format;
+
+            Storage::disk('public')->delete('doc_'.session('loginId').'/'.$oldname);
+           $documentUpdate->storeAs('doc_'.session('loginId'), $data['nomDoc'].".".$format,'public');
+           
+           $update = DB::table('documents')->where('idDoc','=',$document->idDoc)->update([
+            'nomDoc'=>$data['nomDoc'],
+            'formatDoc'=>$format,
+            'dateVersion'=>$date,
+            'numeroVersion'=>$data['numeroVersion'],
+            'taille'=>$taille,
+            'type'=>$data['type'],
+            'service_id'=>$data['service_id'],
+            'user_id'=>session('loginId'),
+           ]);
+           
+           if ($update == 1 ){
+                  return to_route('user.document.index');
+           }
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Document $document)
     {
-        //
+
+        
+        $name = $document->nomDoc.'-version-'.$document->numeroVersion.'.'.$document->formatDoc;
+     
+        Storage::disk('public')->delete('doc_'.session('loginId').'/'.$name);
+        $delete =  DB::table('documents')->where('idDoc',$document->idDoc)->delete(); 
+
+        if ($delete == 1 ){
+
+            return to_route('user.document.index');
+        }else{
+            return to_route('user.document.index');
+        }
+    }
+
+    public function download(Document $document){
+            if ($document->exists()){
+                 $name = $document->nomDoc.'-version-'.$document->numeroVersion.'.'.$document->formatDoc;
+                 $path = 'storage/doc_'.session('loginId');
+                 return response()->download(public_path($path.'/'.$name), $name);
+            }else{
+                return to_route('user.document.index');
+            }
     }
 }
