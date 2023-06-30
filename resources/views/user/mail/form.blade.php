@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', $document->exists ? 'Modifier un document' : 'Créer un document')
+@section('title', $mail->exists ? 'Modifier un mail' : 'Créer un mail')
 
 @section('links')
-    <link rel="stylesheet" href="{{ asset('assets/css/Insription.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/Connexion.css') }}">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Symbols+Sharp">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -14,11 +14,11 @@
 
     <h1 class="my-3">@yield('title')</h1>
 
-    <form action="{{ route($document->exists ? 'user.document.update' : 'user.document.store', ['document' => $document]) }}"
-        method="post" class="v-stack gap-2" enctype="multipart/form-data">
-        @method($document->exists ? 'put' : 'post')
+    <form action="{{ route($mail->exists ? 'user.mail.update' : 'user.mail.store', ['mail' => $mail]) }}" method="post"
+        class="v-stack gap-2" enctype="multipart/form-data">
+        @method($mail->exists ? 'put' : 'post')
         @csrf
-       
+
         <div class="form first">
             <div class="details personal">
                 @if (Session::has('fail'))
@@ -26,37 +26,33 @@
                 @endif
                 <div class="fields">
                     <div class="input-field">
-                        <label for="nomDoc">Nom </label>
-                        <input type="text" placeholder="Nom du document" value="{{  old('nomDoc') ? old('nomDoc') :  $document->nomDoc }}" name="nomDoc">
+                        <label for="nomMail">Nom </label>
+                        <input type="text" placeholder="Nom du mail"
+                            value="{{ old('nomMail') ? old('nomMail') : $mail->nomMail }}" name="nomMail">
                         <span class="text-danger">
-                            @error('nomDoc')
+                            @error('nomMail')
                                 {{ $message }}
                             @enderror
                         </span>
                     </div>
                     @php
-                    $route = request()->route()->getName();
-                @endphp
-                
+                        $route = request()
+                            ->route()
+                            ->getName();
+                    @endphp
+
+
                     <div class="input-field">
-                        <label for="numeroVersion">Numéro version</label>
-                        <input type="text" placeholder="Numéro de version du document" value="{{  old('numeroVersion') ? old('numeroVersion') :  $document->numeroVersion }}"
-                            name="numeroVersion"  @readonly($route == 'user.document.edit')>
+                        <label for="document">Document</label>
+                        <input type="file" name="document" id="document">
                         <span class="text-danger">
-                            @error('numeroVersion')
+                            @error('document')
                                 {{ $message }}
                             @enderror
                         </span>
+
                     </div>
-                    <div class="input-field">
-                        <label for="type">Type du document</label>
-                        <input type="text" placeholder=" Ex:Facture" value="{{  old('type') ? old('type') :  $document->type }}" name="type">
-                        <span class="text-danger">
-                            @error('type')
-                                {{ $message }}
-                            @enderror
-                        </span>
-                    </div>
+
 
                     <div class="input-field">
                         <label for="service">Service</label>
@@ -71,32 +67,22 @@
                             @enderror
                         </span>
                     </div>
-                    
-
-                    <div class="fields">
-                        <div class="input-field">
-                            <label for="document">Document</label>
-                            <input type="file" name="document" id="document">
-                            <span class="text-danger">
-                                @error('document')
-                                    {{ $message }}
-                                @enderror
-                            </span>
-                        </div>
-                    </div>
 
 
 
-                    <button class="inscription px-5" type="submit">
-                        @if ($document->exists)
-                            <span class="btnText">Modifier</span>
-                        @else
-                            <span class="btnText">Créer</span>
-                        @endif
-                    </button>
+
+
 
 
                 </div>
+                
+                <button class="inscription px-5" type="submit">
+                    @if ($mail->exists)
+                        <span class="btnText">Modifier</span>
+                    @else
+                        <span class="btnText">Créer</span>
+                    @endif
+                </button>
             </div>
 
 

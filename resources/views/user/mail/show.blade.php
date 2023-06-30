@@ -1,40 +1,38 @@
 @extends('layouts.app')
 
-@section('title', 'Documents')
+@section('title', 'Courriers ')
 
 @section('links')
     <link rel="stylesheet" href="{{ asset('assets/css/card.css') }}" />
 
 @endsection
+
 @section('content')
 
+<div class="container-fluid my-3">
 
 
+    <div class="row g-5">
 
-<div class="container-fluid my-3 ">
-
-
-    <div class="row g-5 ">
-
-        @foreach ($documents as $document)
-        <div class=" col-xl-6 col-lg-6 col-md-6  ">
+       
+        <div class="  col-lg-4 col-md-6 ">
             <div class="card ">
               <div class="image-content">
                 <span class="overlay"></span>
                 @php
                     $image ='text-3.png';
-                    if ($document->formatDoc == 'pdf'){
+                    if ($mail->formatMail == 'pdf'){
                         $image = 'pdf-1.png';
-                    }elseif($document->formatDoc == 'docx'){
+                    }elseif($mail->formatMail == 'docx'){
                         $image = 'word-1.png';
                     }
-                    elseif($document->formatDoc == 'xlsx'){
+                    elseif($mail->formatMail == 'xlsx'){
                         $image = 'excel-1.png';
                     }
-                    elseif($document->formatDoc == 'csv'){
+                    elseif($mail->formatMail == 'csv'){
                         $image = 'csv-1.png';
                     }
-                    elseif($document->formatDoc == 'xml'){
+                    elseif($mail->formatMail == 'xml'){
                         $image = 'xml-2.png';
                     }
                 @endphp
@@ -45,16 +43,18 @@
               </div>
   
               <div class="card-content">
-                <h2 class="name">Documents</h2>
-                <h2 class="name badge rounded-pill text-bg-primary">Version {{$document->numeroVersion}}</h2>
-                <p>Nom : {{$document->nomDoc}}</p>
+                <h2 class="name">Mail</h2>
+              
+                <p>Nom : {{$mail->nomMail}}</p>
+
+                
                 <div class="icone">
-                    <a href="{{ route('user.document.edit', ['document' => $document]) }}"
+                    <a href="{{ route('user.mail.edit', ['mail' => $mail->idMail]) }}"
                         style="text-decoration:none;color : white; " class='bx bxs-folder'>
                     </a>
-                    <a href="{{ route('user.downloading',['document'=>$document])}}" style="text-decoration:none;color : white; " class='bx bxs-download'>
+                    <a href="{{ route('user.downloadingmail',['mail'=>$mail->idMail])}}" style="text-decoration:none;color : white; " class='bx bxs-download'>
                     </a>
-                    <form action="{{ route('user.document.destroy', ['document' => $document]) }}" method="post" style>
+                    <form action="{{ route('user.mail.destroy', ['mail' => $mail->idMail]) }}" method="post" >
                         @csrf
                         @method('delete')
                         <button class='bx bxs-trash' style=" background: none;
@@ -70,7 +70,7 @@
               </div>
             </div>
           </div>
-        @endforeach
+       
 
 
     </div>
@@ -81,8 +81,8 @@
 @endsection
 
 @section('js')
-<script>
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-</script>
+    <script>
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+    </script>
 @endsection

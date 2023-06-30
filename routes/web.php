@@ -33,9 +33,13 @@ Route::prefix('user')->name('user.')->middleware(['isAdmin'])->group( function()
    Route::resource('document',DocumentController::class)->except('show');
    Route::resource('mail',MailController::class)->except('show');
    Route::get('/download/{document}',[DocumentController::class,'download'])->name('downloading');
+   Route::get('/downloadmail/{mail}',[MailController::class,'download'])->name('downloadingmail');
+   Route::get('/mail/favorite',[MailController::class,'showFavorites'])->name('mail.favorite');
+   Route::get('/mail/important',[MailController::class,'showImportants'])->name('mail.important');
+   Route::get('/mail/show/{mail}',[MailController::class,'showSearch'])->name('mail.search');
+   Route::get('/document/show/{document}',[DocumentController::class,'showSearch'])->name('document.search');
+
 });
-
-
 
 Route::get('/register',[AuthentificationController::class,'show'])->name('register');
 Route::post('/register',[AuthentificationController::class,'registerUser']);

@@ -29,8 +29,6 @@ class User extends Authenticatable
         'service_id'
     ];
 
-    
    
-
-  
+    
 }

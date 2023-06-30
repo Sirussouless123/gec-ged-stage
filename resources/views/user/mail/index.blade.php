@@ -1,53 +1,101 @@
 @extends('layouts.app')
 
 @section('title', 'Courriers')
+@section('links')
+    <link rel="stylesheet" href="{{ asset('assets/css/card.css') }}" />
 
+@endsection
 @section('content')
 
 
-  <div class="row">
+@php
+    
+    $favorite = DB::table('categories')
+        ->where('nomCat', 'Favoris')
+        ->first();
+    
+    $report = DB::table('categories')
+        ->Where('nomCat', 'Importants')
+        ->first();
+@endphp
+
+<div class="container-fluid my-3">
 
 
-      <div class="delib my-5 ">
+    <div class="row g-5">
+
+        @foreach ($mails as $mail)
+        <div class="  col-lg-4 col-md-6 ">
+            <div class="card ">
+              <div class="image-content">
+                <span class="overlay"></span>
+                @php
+                    $image ='text-3.png';
+                    if ($mail->formatMail == 'pdf'){
+                        $image = 'pdf-1.png';
+                    }elseif($mail->formatMail == 'docx'){
+                        $image = 'word-1.png';
+                    }
+                    elseif($mail->formatMail == 'xlsx'){
+                        $image = 'excel-1.png';
+                    }
+                    elseif($mail->formatMail == 'csv'){
+                        $image = 'csv-1.png';
+                    }
+                    elseif($mail->formatMail == 'xml'){
+                        $image = 'xml-2.png';
+                    }
+                @endphp
   
-          @foreach ($mails as $mail)
-         
-              <div class="trim  ">
-                  <div class="icone">
-                      <span >Date et heure  : {{ $mail->dateDepot }}- {{ $mail->heureDepot }}</span>
-                        
-                  </div>
-                  <div class="info">
-                      <h3>Nom :</h3>
-                      <h3>{{ $mail->nomMail }}</h3>
-                      <a href="{{ route('user.mail.edit', ['mail' => $mail]) }}"
-                          style="text-decoration:none;color : black; " class='bx bxs-folder'>
-                      </a>
-                      {{-- {{ route('user.downloading.mail',['mail'=>$mail])}} --}}
-                      <a href="#" style="text-decoration:none;color : black; " class='bx bxs-download'>
-                      </a>
-                      <form action="{{ route('user.mail.destroy', ['mail' => $mail]) }}" method="post" class="pb-3">
-                          @csrf
-                          @method('delete')
-                          <button class='bx bxs-trash' style="border: none;"> </button>
-  
-                      </form>
-                  </div>
-             
+                <div class="card-image">
+                  <img src="{{ asset('assets/img/'.$image)}}" alt="" class="card-img" />
+                </div>
               </div>
-          @endforeach
   
-  
-      </div>
-  </div>
+              <div class="card-content" >
+                <h2 class="name">Mail</h2>
+              
+                <p>Nom : {{$mail->nomMail}}</p>
+
+
+
+                <div class="category" x-data>
+                      <livewire:favorite  :mail='$mail->idMail' :favorite='$favorite->idCat' />
+                      <livewire:report  :mail='$mail->idMail' :report='$report->idCat' />
+                </div>
+            
+                <div class="icone">
+                    <a href="{{ route('user.mail.edit', ['mail' => $mail->idMail]) }}"
+                        style="text-decoration:none;color : white; " class='bx bxs-folder'>
+                    </a>
+                    <a href="{{ route('user.downloadingmail',['mail'=>$mail->idMail])}}" style="text-decoration:none;color : white; " class='bx bxs-download'>
+                    </a>
+                    <form action="{{ route('user.mail.destroy', ['mail' => $mail->idMail]) }}" method="post" >
+                        @csrf
+                        @method('delete')
+                        <button class='bx bxs-trash' style=" background: none;
+                        color: white;
+                        border: none;
+                        padding: 0;
+                        font: inherit;
+                        cursor: pointer;
+                        outline: inherit; "> </button>
+
+                    </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        @endforeach
+
+
+    </div>
+</div>
 
 
 
 @endsection
 
 @section('js')
-    <script>
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-    </script>
+
 @endsection

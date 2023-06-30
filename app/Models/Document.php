@@ -18,6 +18,7 @@ class Document extends Model
         'type',
         'service_id',
         'user_id',
+        'description'
     ];
 
     public function getRouteKeyName(): string

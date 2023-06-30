@@ -18,7 +18,9 @@ class DocumentController extends Controller
      */
     public function index()
     {
+      
         $documents = Document::all();
+       
         return view('user.document.index',[
             'documents'=>$documents,
         ]);
@@ -43,6 +45,7 @@ class DocumentController extends Controller
 
     public function store(DocumentRequest $request)
     {
+       
         /** @var UploadedFile  $document*/
         $document = $request->validated('document');
         $format = $document->getClientOriginalExtension();
@@ -52,14 +55,14 @@ class DocumentController extends Controller
         $data = $request->validated();
 
         
-        $verif = DB::table('documents')->where('numeroVersion',$data['numeroVersion'])->exists();
+        $verif = DB::table('documents')->where('numeroVersion',$data['numeroVersion'])->where('nomDoc',$data['nomDoc'])->exists();
 
         if ( $verif == true){
             return to_route('user.document.create')->with('fail', 'Changez la version du document ');
         }else{
             $document->storeAs('doc_'.session('loginId'), $data['nomDoc'].'-version-'.$data['numeroVersion'].".".$format,'public');
 
-
+     
             $create = Document::create([
                 'nomDoc'=>$data['nomDoc'],
                 'formatDoc'=>$format,
@@ -69,6 +72,7 @@ class DocumentController extends Controller
                 'type'=>$data['type'],
                 'service_id'=>$data['service_id'],
                 'user_id'=>session('loginId'),
+                'description'=>$data['description'],
             ]);
             if ($create->exists()){
                 return to_route('user.document.index');
@@ -104,7 +108,6 @@ class DocumentController extends Controller
     public function update( Document $document ,DocumentRequest $request)
     {
 
-       
            $data = $request->validated();
           
            $documentUpdate = $request->validated('document');
@@ -112,27 +115,31 @@ class DocumentController extends Controller
             $taille = $documentUpdate->getSize();
             $date = date('Y-m-d');
            $oldname = $document->nomDoc.'-version-'.$data['numeroVersion'].'.'.$format;
-
+           if (Storage::disk('public')->exists('doc_'.session('loginId').'/'.$oldname) == true) {
             Storage::disk('public')->delete('doc_'.session('loginId').'/'.$oldname);
-           $documentUpdate->storeAs('doc_'.session('loginId'), $data['nomDoc'].".".$format,'public');
-           
-           $update = DB::table('documents')->where('idDoc','=',$document->idDoc)->update([
-            'nomDoc'=>$data['nomDoc'],
-            'formatDoc'=>$format,
-            'dateVersion'=>$date,
-            'numeroVersion'=>$data['numeroVersion'],
-            'taille'=>$taille,
-            'type'=>$data['type'],
-            'service_id'=>$data['service_id'],
-            'user_id'=>session('loginId'),
-           ]);
-           
-           if ($update == 1 ){
-                  return to_route('user.document.index');
            }
-
-    }
-
+       
+           
+           
+            $documentUpdate->storeAs('doc_'.session('loginId'), $data['nomDoc']."-version-".$data['numeroVersion'].'.'.$format,'public');
+            
+            $update = DB::table('documents')->where('idDoc','=',$document->idDoc)->update([
+             'nomDoc'=>$data['nomDoc'],
+             'formatDoc'=>$format,
+             'dateVersion'=>$date,
+             'numeroVersion'=>$data['numeroVersion'],
+             'taille'=>$taille,
+             'type'=>$data['type'],
+             'service_id'=>$data['service_id'],
+             'user_id'=>session('loginId'),
+             'description'=>$data['description'],
+            ]);
+            
+            if ($update == 1 ){
+                   return to_route('user.document.index');
+            }
+        }
+        
     /**
      * Remove the specified resource from storage.
      */
@@ -142,24 +149,33 @@ class DocumentController extends Controller
         
         $name = $document->nomDoc.'-version-'.$document->numeroVersion.'.'.$document->formatDoc;
      
-        Storage::disk('public')->delete('doc_'.session('loginId').'/'.$name);
-        $delete =  DB::table('documents')->where('idDoc',$document->idDoc)->delete(); 
-
-        if ($delete == 1 ){
-
-            return to_route('user.document.index');
-        }else{
-            return to_route('user.document.index');
+        if(Storage::disk('public')->exists('doc_'.session('loginId').'/'.$name) == true){
+            Storage::disk('public')->delete('doc_'.session('loginId').'/'.$name);
         }
-    }
 
-    public function download(Document $document){
-            if ($document->exists()){
-                 $name = $document->nomDoc.'-version-'.$document->numeroVersion.'.'.$document->formatDoc;
-                 $path = 'storage/doc_'.session('loginId');
-                 return response()->download(public_path($path.'/'.$name), $name);
+  
+            $delete =  DB::table('documents')->where('idDoc',$document->idDoc)->delete(); 
+    
+            if ($delete == 1 ){
+    
+                return to_route('user.document.index');
             }else{
                 return to_route('user.document.index');
             }
+        }
+    
+
+    public function download(Document $document){
+       
+                 $name = $document->nomDoc.'-version-'.$document->numeroVersion.'.'.$document->formatDoc;
+                 $path = 'storage/doc_'.session('loginId');
+                 return response()->download(public_path($path.'/'.$name), $name);
+            
     }
+
+    public function showSearch(Document $document){
+        return view('user.document.show',[
+         'document'=>$document,
+        ]);
+  }
 }

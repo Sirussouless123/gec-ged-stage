@@ -1,23 +1,15 @@
 @extends('layouts.app')
 
 @section('title', 'Documents')
-
 @section('links')
     <link rel="stylesheet" href="{{ asset('assets/css/card.css') }}" />
 
 @endsection
 @section('content')
 
-
-
-
-<div class="container-fluid my-3 ">
-
-
-    <div class="row g-5 ">
-
-        @foreach ($documents as $document)
-        <div class=" col-xl-6 col-lg-6 col-md-6  ">
+<div class="container-fluid my-3">
+    <div class="row g-5">
+      <div class="  col-lg-4 col-md-6 ">
             <div class="card ">
               <div class="image-content">
                 <span class="overlay"></span>
@@ -64,25 +56,20 @@
                         font: inherit;
                         cursor: pointer;
                         outline: inherit; "> </button>
-
                     </form>
                 </div>
               </div>
             </div>
           </div>
-        @endforeach
-
-
     </div>
 </div>
-
 
 
 @endsection
 
 @section('js')
-<script>
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-</script>
+    <script>
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+    </script>
 @endsection

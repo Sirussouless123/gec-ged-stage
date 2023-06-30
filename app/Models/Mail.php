@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Mail extends Model
 {
@@ -18,7 +19,18 @@ class Mail extends Model
         'user_id',
     ];
 
+    protected $primaryKey = 'idMail';
+
     public function getRouteKeyName(){
            return 'idMail';
     }
+
+    public function categories(){
+        return $this->belongsToMany('App\Models\Category');
+    }
+
+    public function scopeOnline($query){
+        return $query->where('user_id', session('loginId'));
+ }
+  
 }

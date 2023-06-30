@@ -28,6 +28,7 @@ class DocumentRequest extends FormRequest
             'type'=>'required|string|min:2',
             'document'=>'required|file',
             'service_id'=>'required|exists:services,idSer',
+            'description'=>'required'
         ];
     }
 }

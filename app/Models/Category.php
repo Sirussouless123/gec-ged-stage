@@ -18,4 +18,8 @@ class Category extends Model
     {
         return 'idCat';
     }
+
+    public function mails(){
+        return $this->belongsToMany('App\Models\Mails');
+    }
 }

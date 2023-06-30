@@ -3,9 +3,7 @@
 @section('title','Inscription')
 @section('links')
 <link rel="stylesheet" href="{{asset('assets/css/Insription.css')}}">
-<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Symbols+Sharp">
-<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 @endsection
 
 @section('content')

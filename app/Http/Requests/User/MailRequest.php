@@ -22,9 +22,9 @@ class MailRequest extends FormRequest
     public function rules(): array
     {
         return [
-         'nomMail'=>'required|string',    
+         'nomMail'=>'required|string|unique:mails,nomMail',    
          'service_id'=>'required|exists:services,idSer',
-         'user_id'=>'required|exists:users,id',
+         'document'=>'required|file',
         ];
     }
 }
