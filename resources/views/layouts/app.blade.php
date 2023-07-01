@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@yield('title')</title>
-
+    @livewireStyles
     <link rel="stylesheet" href="{{ asset('assets/css/nav.css') }}" />
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Symbols+Sharp">
@@ -13,7 +13,7 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}" />
-    @livewireStyles
+  
     @vite(['resources/js/app.js'])
    
     @yield('links')
@@ -117,7 +117,7 @@
                         @if (Session::has('status'))
                             <div class="accordion accordion-flush color-accordion" id="accordionFlushExample ">
                                 <div class="accordion-item">
-                                    <h2 class="accordion-header d-flex align-items-center justify-content-space-around"
+                                    <p class="accordion-header d-flex align-items-center justify-content-space-around"
                                         id="flush-headingOne">
                                         <a href="{{ route('user.document.index') }}">
                                             <span class="material-symbols-sharp "
@@ -129,7 +129,7 @@
                                             Documents
                                         </span>
 
-                                    </h2>
+                                    </p>
                                     <div id="flush-collapseOne" class="accordion-collapse collapse link-visibility-item"
                                         aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                                         <ul class="list-document d-flex flex-column    ">
@@ -157,7 +157,7 @@
                             </div>
                             <div class="accordion accordion-flush color-accordion" id="accordionFlushExample2 ">
                                 <div class="accordion-item">
-                                    <h2 class="accordion-header d-flex align-items-center justify-content-space-around"
+                                    <p class="accordion-header d-flex align-items-center justify-content-space-around"
                                         id="flush-heading2">
                                         <a href=" {{ route('user.mail.index') }}">
                                             <span class="material-symbols-sharp "
@@ -169,7 +169,7 @@
                                             Courriers
                                         </span>
 
-                                    </h2>
+                                    </p>
                                     <div id="flush-collapse2" class="accordion-collapse collapse link-visibility-item"
                                         aria-labelledby="flush-heading2" data-bs-parent="#accordionFlushExample2">
                                         <ul class="list-document d-flex flex-column  justify-content-start ">
@@ -227,6 +227,7 @@
                             </li>
                         </div>
                     </div>
+                  
                     <div class="bottom-content">
                         <li class="mode">
                             <div class="moon-sun">

@@ -161,9 +161,8 @@ class MailController extends Controller
 
         public function showFavorites(){
             $favorite = DB::table('categories')->where('nomCat','Favoris')->first();
-       
             
-            $favorites = DB::table('mails')->join('category_mails','category_mails.mail_id','=','mails.idMail')->where('category_mails.category_id',$favorite->idCat)->where('category_mails.user_id',session('loginId'))->select('mails.*')->get();
+            $favorites = DB::table('mails')->join('category_mails','category_mails.mail_id','=','mails.idMail')->where('category_mails.category_id',$favorite->idCat)->where('mails.user_id',session('loginId'))->select('mails.*')->get();
 
            
             return view('user.mail.favorites',[

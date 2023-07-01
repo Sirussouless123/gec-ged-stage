@@ -10,7 +10,6 @@
 <body>
   @php 
  $route = request()->route()->getName();
-
   @endphp
     <nav class="navbar navbar-expand-lg bg-dark " data-bs-theme="dark">
         <div class="container-fluid">
@@ -33,14 +32,13 @@
               </li>
              
               <li class="nav-item">
-                <a  href="{{ route('admin.category.index')}}"    @class(['nav-link',
+                <a  href="{{ route('admin.category.index')}}"  @class(['nav-link',
                 'active'=>str_contains($route,'category')])>Catégories</a>
               </li>
-              <li class="nav-item nav-link text-decoration-none">
-                <a  href="{{ route('logout')}}">Déconnexion</a>
+              <li class="nav-item  ">
+                <a  class="nav-link" href="{{ route('logout')}}">Déconnexion</a>
               </li>
-              
-              
+                           
             </ul>
 
           </div>
