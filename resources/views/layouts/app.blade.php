@@ -52,7 +52,7 @@
     <style>
 
     
-        .search-style a:hover {
+        .search-style p:hover {
             background-color: #cfe2ff;
 
 
@@ -117,7 +117,7 @@
                         @if (Session::has('status'))
                             <div class="accordion accordion-flush color-accordion" id="accordionFlushExample ">
                                 <div class="accordion-item">
-                                    <p class="accordion-header d-flex align-items-center justify-content-space-around"
+                                    <h2 class="accordion-header d-flex align-items-center justify-content-space-around"
                                         id="flush-headingOne">
                                         <a href="{{ route('user.document.index') }}">
                                             <span class="material-symbols-sharp "
@@ -129,7 +129,7 @@
                                             Documents
                                         </span>
 
-                                    </p>
+                                    </h2>
                                     <div id="flush-collapseOne" class="accordion-collapse collapse link-visibility-item"
                                         aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                                         <ul class="list-document d-flex flex-column    ">
@@ -157,7 +157,7 @@
                             </div>
                             <div class="accordion accordion-flush color-accordion" id="accordionFlushExample2 ">
                                 <div class="accordion-item">
-                                    <p class="accordion-header d-flex align-items-center justify-content-space-around"
+                                    <h2 class="accordion-header d-flex align-items-center justify-content-space-around"
                                         id="flush-heading2">
                                         <a href=" {{ route('user.mail.index') }}">
                                             <span class="material-symbols-sharp "
@@ -169,7 +169,7 @@
                                             Courriers
                                         </span>
 
-                                    </p>
+                                    </h2>
                                     <div id="flush-collapse2" class="accordion-collapse collapse link-visibility-item"
                                         aria-labelledby="flush-heading2" data-bs-parent="#accordionFlushExample2">
                                         <ul class="list-document d-flex flex-column  justify-content-start ">

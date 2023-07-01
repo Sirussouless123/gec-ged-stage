@@ -28,6 +28,8 @@
             @foreach ($mails as $mail)
                 <div class="  col-lg-4 col-md-6 ">
                     <div class="card ">
+
+
                         <div class="image-content">
                             <span class="overlay"></span>
                             @php
@@ -48,48 +50,52 @@
                             <div class="card-image">
                                 <img src="{{ asset('assets/img/' . $image) }}" alt="" class="card-img" />
                             </div>
+
                         </div>
+
 
 
                         <div class="card-content">
                             <h2 class="name">Mail</h2>
 
                             <p>Nom : {{ $mail->nomMail }}</p>
+                            <div x-data="{ option: false }">
+                              
+                                <button class="button-7 " role="button" @click="option = !option">Options</button>
+                                <div x-show="option">
+                                    <div class="d-flex   justify-content-between my-2 gap-5 ">
+
+                                        <a href="{{ route('user.mail.edit', ['mail' => $mail->idMail]) }}"
+                                            style="text-decoration:none;color : black; " class='bx bxs-folder mt-1'>
+                                        </a>
 
 
 
-                            {{-- <div  x-data> --}}
-                            {{-- <livewire:favorite  :mail='$mail->idMail' :favorite='$favorite->idCat' />
-                      <livewire:report  :mail='$mail->idMail' :report='$report->idCat' /> --}}
+                                        <a href="{{ route('user.downloadingmail', ['mail' => $mail->idMail]) }}"
+                                            style="text-decoration:none;color : black; " class='bx bxs-download mt-1'>
+                                        </a>
 
-                            {{-- </div>
-             --}}
-                            <div >
+                                        <livewire:favorite :mail="$mail->idMail" :favorite="$favorite->idCat" />
+                                            <livewire:report :mail="$mail->idMail" :report="$report->idCat" />
+                                        <form action="{{ route('user.mail.destroy', ['mail' => $mail->idMail]) }}"
+                                            method="post">
+                                            @csrf
+                                            @method('delete')
+                                            <button class='bx bxs-trash'
+                                                style=" background: none;color: black;border: none; padding: 0;font: inherit; cursor: pointer; outline: inherit; "
+                                                class="mb-5">
+                                            </button>
 
-                                <livewire:favorite />
+
+                                        </form>
+                           
+                                    </div>
+
+                                </div>
+
+
                             </div>
-                            <div class="icone">
-                                <a href="{{ route('user.mail.edit', ['mail' => $mail->idMail]) }}"
-                                    style="text-decoration:none;color : white; " class='bx bxs-folder'>
-                                </a>
-                                <a href="{{ route('user.downloadingmail', ['mail' => $mail->idMail]) }}"
-                                    style="text-decoration:none;color : white; " class='bx bxs-download'>
-                                </a>
-                                <form action="{{ route('user.mail.destroy', ['mail' => $mail->idMail]) }}" method="post">
-                                    @csrf
-                                    @method('delete')
-                                    <button class='bx bxs-trash'
-                                        style=" background: none;
-                        color: white;
-                        border: none;
-                        padding: 0;
-                        font: inherit;
-                        cursor: pointer;
-                        outline: inherit; ">
-                                    </button>
 
-                                </form>
-                            </div>
                         </div>
                     </div>
                 </div>

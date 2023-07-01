@@ -172,7 +172,7 @@ class MailController extends Controller
 
      public function showImportants(){
         $report = DB::table('categories')->where('nomCat','Importants')->first();
-        $importants = DB::table('mails')->join('category_mails','category_mails.mail_id','=','mails.idMail')->where('category_mails.category_id',$report->idCat)->where('category_mails.user_id',session('loginId'))->select('mails.*')->get();
+        $importants = DB::table('mails')->join('category_mails','category_mails.mail_id','=','mails.idMail')->where('category_mails.category_id',$report->idCat)->where('mails.user_id',session('loginId'))->select('mails.*')->get();
         return view('user.mail.importants',[
             'mails'=>$importants,
         ]);
