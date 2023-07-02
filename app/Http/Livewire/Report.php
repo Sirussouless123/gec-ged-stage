@@ -10,7 +10,7 @@ class Report extends Component
 
     public  $mail;
     public $report;
-    public $state;
+    public $state= false;
 
     public $color;
 

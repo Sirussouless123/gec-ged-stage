@@ -48,24 +48,39 @@
                 <h2 class="name">Documents</h2>
                 <h2 class="name badge rounded-pill text-bg-primary">Version {{$document->numeroVersion}}</h2>
                 <p>Nom : {{$document->nomDoc}}</p>
-                <div class="icone">
-                    <a href="{{ route('user.document.edit', ['document' => $document]) }}"
-                        style="text-decoration:none;color : white; " class='bx bxs-folder'>
-                    </a>
-                    <a href="{{ route('user.downloading',['document'=>$document])}}" style="text-decoration:none;color : white; " class='bx bxs-download'>
-                    </a>
-                    <form action="{{ route('user.document.destroy', ['document' => $document]) }}" method="post" style>
-                        @csrf
-                        @method('delete')
-                        <button class='bx bxs-trash' style=" background: none;
-                        color: white;
-                        border: none;
-                        padding: 0;
-                        font: inherit;
-                        cursor: pointer;
-                        outline: inherit; "> </button>
+                <div x-data="{ option: false }" >
+                              
+                    <button class="button-7 " role="button" @click="option = !option" >Options</button>
+                    <div x-show="option" x-cloak>
+                        <div class="d-flex   justify-content-between my-2 gap-5 ">
 
-                    </form>
+                            <a href="{{ route('user.mail.edit', ['mail' => $document->idDoc]) }}"
+                                style="text-decoration:none;color : black; " class='bx bxs-folder mt-1'>
+                            </a>
+
+
+
+                            <a href="{{ route('user.downloadingmail', ['mail' => $document->idDoc]) }}"
+                                style="text-decoration:none;color : black; " class='bx bxs-download mt-1'>
+                            </a>
+
+                            <form action="{{ route('user.mail.destroy', ['mail' => $document->idDoc]) }}"
+                                method="post">
+                                @csrf
+                                @method('delete')
+                                <button class='bx bxs-trash'
+                                    style=" background: none;color: black;border: none; padding: 0;font: inherit; cursor: pointer; outline: inherit; "
+                                    class="mb-5">
+                                </button>
+
+
+                            </form>
+               
+                        </div>
+
+                    </div>
+
+
                 </div>
               </div>
             </div>

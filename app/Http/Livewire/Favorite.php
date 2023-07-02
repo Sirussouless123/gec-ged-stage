@@ -10,7 +10,7 @@ class Favorite extends Component
 
     public  $mail;
     public $favorite ;
-    public $state ;
+    public $state= false;
 
     public $color ;
     
