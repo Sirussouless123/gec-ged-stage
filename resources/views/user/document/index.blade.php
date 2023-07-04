@@ -37,34 +37,40 @@
                     elseif($document->formatDoc == 'xml'){
                         $image = 'xml-2.png';
                     }
+
+                //     $name = $document->nomDoc.'-version-'.$document->numeroVersion.'.'.$document->formatDoc;
+                //  $path = 'storage/doc_'.session('loginId');
+                //  $store = asset('https:'.$path.'/'.$name);
                 @endphp
   
                 <div class="card-image">
                   <img src="{{ asset('assets/img/'.$image)}}" alt="" class="card-img" />
                 </div>
               </div>
-  
+             
               <div class="card-content">
                 <h2 class="name">Documents</h2>
                 <h2 class="name badge rounded-pill text-bg-primary">Version {{$document->numeroVersion}}</h2>
                 <p>Nom : {{$document->nomDoc}}</p>
+                {{-- {{ "<img src='https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=$store&choe=UTF-8'>      "}} --}}
+                {{-- <img src="https://chart.googleapis.com/chart?chs=300&cht=qr&chl=$store&choe=UTF-8" />             --}}
                 <div x-data="{ option: false }" >
                               
-                    <button class="button-7 " role="button" @click="option = !option" >Options</button>
+                    <button class="button-7 "  @click="option = !option" >Options</button>
                     <div x-show="option" x-cloak>
                         <div class="d-flex   justify-content-between my-2 gap-5 ">
 
-                            <a href="{{ route('user.mail.edit', ['mail' => $document->idDoc]) }}"
+                            <a href="{{ route('user.document.edit', ['document' => $document->idDoc]) }}"
                                 style="text-decoration:none;color : black; " class='bx bxs-folder mt-1'>
                             </a>
 
 
 
-                            <a href="{{ route('user.downloadingmail', ['mail' => $document->idDoc]) }}"
+                            <a href="{{ route('user.downloading', ['document' => $document->idDoc]) }}"
                                 style="text-decoration:none;color : black; " class='bx bxs-download mt-1'>
                             </a>
 
-                            <form action="{{ route('user.mail.destroy', ['mail' => $document->idDoc]) }}"
+                            <form action="{{ route('user.document.destroy', ['document' => $document->idDoc]) }}"
                                 method="post">
                                 @csrf
                                 @method('delete')

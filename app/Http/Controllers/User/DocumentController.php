@@ -48,6 +48,7 @@ class DocumentController extends Controller
        
         /** @var UploadedFile  $document*/
         $document = $request->validated('document');
+        dd($document);
         $format = $document->getClientOriginalExtension();
         $taille = $document->getSize();
         $dateVersion = date('Y-m-d');
@@ -139,6 +140,8 @@ class DocumentController extends Controller
                    return to_route('user.document.index');
             }
         }
+
+        
         
     /**
      * Remove the specified resource from storage.
@@ -169,6 +172,7 @@ class DocumentController extends Controller
        
                  $name = $document->nomDoc.'-version-'.$document->numeroVersion.'.'.$document->formatDoc;
                  $path = 'storage/doc_'.session('loginId');
+           
                  return response()->download(public_path($path.'/'.$name), $name);
             
     }
@@ -178,4 +182,6 @@ class DocumentController extends Controller
          'document'=>$document,
         ]);
   }
+
+
 }

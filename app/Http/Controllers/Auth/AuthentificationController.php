@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use App\Models\Service;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\loginRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SignupRequest;
-use App\Models\Category;
 use Illuminate\Support\Facades\Hash;
 
 class AuthentificationController extends Controller
@@ -67,7 +68,7 @@ class AuthentificationController extends Controller
                 );
               
               if ($request->session()->has('statut') && session('statut') == 1){
-                return to_route('admin.department.index');
+             return to_route('admin.home');
               }else{
                 
                 return to_route('user.document.index');

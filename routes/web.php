@@ -1,12 +1,14 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\User\MailController;
+use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\User\DocumentController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DepartmentController;
-use App\Http\Controllers\Admin\ServiceController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthentificationController;
-use App\Http\Controllers\User\DocumentController;
-use App\Http\Controllers\User\MailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +27,7 @@ Route::get('/', function () {
 
 
 Route::prefix('admin')->name('admin.')->middleware(['isAdmin','user'])->group( function(){
+      Route::get("/home", [HomeController::class,"show"])->name('home');
    Route::resource('department',DepartmentController::class)->except('show');
    Route::resource('service',ServiceController::class)->except('show');
    Route::resource('category',CategoryController::class)->except('show');

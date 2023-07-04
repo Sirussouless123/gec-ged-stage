@@ -17,7 +17,7 @@ class DepartmentController extends Controller
     {
        
         return view('admin.department.index',[
-            'departments'=>Department::Paginate(6),
+            'departments'=>Department::Paginate(5),
         ]);
     }
 

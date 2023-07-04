@@ -74,7 +74,7 @@ class CategoryController extends Controller
               ->update(['nomCat' => $data['nomCat'],'user_id'=>$data['user_id']]);
            
          if ($update == 1){
-               return to_route('admin.category.index')->with( 'success','Catégorie modifié avec succès');
+               return to_route('admin.category.index')->with( 'success','Catégorie modifiée avec succès');
          }
     }
 
@@ -86,7 +86,7 @@ class CategoryController extends Controller
         $delete = DB::table('categories')->where('idCat',$category->idCat)->delete();
          
         if ($delete == 1){
-            return to_route('admin.category.index')->with('success','Catégorie supprimé avec succès');
+            return to_route('admin.category.index')->with('success','Catégorie supprimée avec succès');
         }
     }
 }

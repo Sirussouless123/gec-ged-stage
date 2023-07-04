@@ -4,25 +4,40 @@
 
 
 @section('content')
-        
-          <h1 class="my-3">@yield('title')</h1>
+    <div class="container-fluid plr_30 body_white_bg pt_30">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="white_box mb_30">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6">
 
-        
-          <form action="{{ route($category->exists ? 'admin.category.update' : 'admin.category.store',['category'=>$category] )}}" method="post" class="v-stack gap-2">
-            @method($category->exists ? 'put' : 'post')
+                            <div class="modal-content cs_modal">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">@yield('title')</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <form
+                                        action="{{ route($category->exists ? 'admin.category.update' : 'admin.category.store',['category'=>$category] )}}" method="post" class="gap-2 v-stack">
+                                        @method($category->exists ? 'put' : 'post')
             @csrf
             <input type="hidden" name="user_id" value="0">
-            @include('shared.input', ['type'=>'text','label'=>'Nom', 'name'=>'nomCat','value'=>$category->nomCat])
-            <div class="mt-3"> 
-                <button class="btn btn-success">
-                        @if ($category->exists)
-                            Modifier
-                        @else 
-                            Créer
-                         @endif
-             
-                </button>
-             
+                                        <div class>
+                                            @include('shared.input', ['type'=>'text','label'=>'Nom ', 'name'=>'nomCat','value'=>$category->nomCat])
+                                                <button class="btn btn-success">
+                                                        @if ($category->exists)
+                                                            Modifier
+                                                        @else 
+                                                            Créer
+                                                         @endif
+                                                </button>                                       
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-          </form>
+            </div>
+        </div>
+    </div>
 @endsection

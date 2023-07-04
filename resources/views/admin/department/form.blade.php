@@ -4,24 +4,49 @@
 
 
 @section('content')
-        
-          <h1 class="my-3">@yield('title')</h1>
+    <div class="container-fluid plr_30 body_white_bg pt_30">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="white_box mb_30">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6">
 
-        
-          <form action="{{ route($department->exists ? 'admin.department.update' : 'admin.department.store',['department'=>$department] )}}" method="post" class="v-stack gap-2">
-            @method($department->exists ? 'put' : 'post')
-            @csrf
-            @include('shared.input', ['type'=>'text','label'=>'Nom', 'name'=>'nomDep','value'=>$department->nomDep])
-            <div class="mt-3"> 
-                <button class="btn btn-success">
-                        @if ($department->exists)
-                            Modifier
-                        @else 
-                            Créer
-                         @endif
-             
-                </button>
-             
+                            <div class="modal-content cs_modal">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">@yield('title')</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <form
+                                        action="{{ route($department->exists ? 'admin.department.update' : 'admin.department.store', ['department' => $department]) }}"
+                                        class="gap-2" method="POST">
+                                        @csrf
+                                        @method($department->exists ? 'put' : 'post')
+
+                                        <div class>
+                                            @include('shared.input', [
+                                                'type' => 'text',
+                                                'label' => 'Nom du département',
+                                                'name' => 'nomDep',
+                                                'value' => $department->nomDep,
+                                            ])
+
+                                            <button class="btn btn-success ">
+                                                @if ($department->exists)
+                                                    Modifier
+                                                @else
+                                                    Créer
+                                                @endif
+
+                                            </button>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-          </form>
+            </div>
+        </div>
+    </div>
 @endsection
