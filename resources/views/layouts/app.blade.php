@@ -271,7 +271,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="manifest" href="site.html">
-    {{-- <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico"> --}}
+    <link rel="icon" href="{{ asset('assets/img/text-3.png') }}" type="image/png">
 
     <link rel="stylesheet" href="{{asset('assets/user/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/user/css/owl.carousel.min.css')}}">

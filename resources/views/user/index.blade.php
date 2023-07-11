@@ -101,7 +101,7 @@
           </div>
           <div class="do-caption">
             <h4>Gestion des courriers</h4>
-            <p>De la même manière que les documents, vous pouvez enregistrer vos courriers, les modifier et les supprime.Les courriers sont également téléchargeables </p>
+            <p>De la même manière que les documents, vous pouvez enregistrer vos courriers, les modifier et les supprimer. Les courriers sont également téléchargeables </p>
           </div>
           <div class="do-btn">
             <a href="{{route('login')}}"><i class="ti-arrow-right"></i>Commencer</a>
@@ -115,7 +115,7 @@
           </div>
           <div class="do-caption">
             <h4>Classification des documents et courriers </h4>
-            <p> Les documents sont enregistrés par version, par type et par service.Les courriers peuvent être classés par catégorie.on peut également retrouver les courriers par service</p>
+            <p> Les documents sont enregistrés par version, par type et par service.Les courriers peuvent être classés par catégorie. On peut également retrouver les courriers par service</p>
           </div>
           <div class="do-btn">
             <a href="{{route('login')}}"><i class="ti-arrow-right"></i>Commencer</a>

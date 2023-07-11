@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\User;
 use App\Models\Service;
 use App\Models\Document;
 use Illuminate\Http\Request;
+use PhpParser\Node\Stmt\Break_;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\User\DocumentRequest;
-use PhpParser\Node\Stmt\Break_;
 
 class DocumentController extends Controller
 {
@@ -301,5 +302,12 @@ class DocumentController extends Controller
             'services'=>$services,
             'nbSer'=>count($services),
         ]);
+    }
+
+    public function showProfile(User $user){
+               
+
+
+                return view('user.profil',['user'=>$user,'services'=>Service::all()]);
     }
 }

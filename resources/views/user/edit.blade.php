@@ -31,7 +31,7 @@
                         </div>
                         <div class="input-field">
                             <label for="email">Email</label>
-                            <input type="email" placeholder=" Entrez votre email" value="{{old('email') ? old('email') : $user->email }}" name="email">
+                            <input type="email"  value="{{ $user->email }}" @readonly(true) name="email">
                             <span style="color: #dc354691;">@error('email') {{$message}} @enderror</span>
                         </div>
                         <div class="input-field">

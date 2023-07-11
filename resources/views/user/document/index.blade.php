@@ -109,6 +109,7 @@
     <link rel="stylesheet" href="{{ asset('assets/user/css/doc.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/user/css/subnav.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/user/css/fontawesome-free-6.4.0-web/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/user/css/fontawesome-free-6.4.0-web/css/regular.css') }}">
     <script src="{{ asset('assets/user/js/jquery-3.7.0.min.js') }}"></script>
 @endsection
 
@@ -154,7 +155,7 @@
                         </a>
                     </div>
                     @endif
-                    <div class="profile_info" style="z-index :200">
+                    <div class="profile_info " style="z-index :200">
                         <img src="{{asset('assets/img/client_img.png')}}" alt="#">
                         <div class="profile_info_iner">
                             @php
@@ -163,8 +164,8 @@
                             <p>Bienvenue utilisateur</p>
                             <h5>{{$infos->nom}} {{$infos->prenom}}</h5>
                             <div class="profile_info_details">
-                                <a href="{{route('user.user.edit',['user'=>$infos->id])}}">Mon profil <i class="ti-user"></i></a>
-                                <a href="{{route('logout')}}">Log Out <i class="ti-shift-left"></i></a>
+                                <a href="{{route('user.profil',['user'=>$infos->id])}}">Mon profil <i class="fa-regular fa-user"></i></a>
+                                <a href="{{route('logout')}}">Déconnexion <i class="ti-shift-left"></i></a>
                             </div>
                         </div>
                     </div>

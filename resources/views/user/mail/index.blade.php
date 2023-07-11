@@ -1,120 +1,3 @@
-{{-- @extends('layouts.app')
-
-@section('title', 'Courriers')
-@section('links')
-    <link rel="stylesheet" href="{{ asset('assets/css/card.css') }}" />
-@endsection
-@section('content')
-
-
-
-    @php
-        
-        $favorite = DB::table('categories')
-            ->where('nomCat', 'Favoris')
-            ->first();
-        
-        $report = DB::table('categories')
-            ->Where('nomCat', 'Importants')
-            ->first();
-    @endphp
-
-
-    <div class="container-fluid my-3">
-
-
-        <div class="row g-5">
-
-            @foreach ($mails as $mail)
-                <div class="  col-lg-4 col-md-6 ">
-                    <div class="card ">
-
-
-                        <div class="image-content">
-                            <span class="overlay"></span>
-                            @php
-                                $image = 'text-3.png';
-                                if ($mail->formatMail == 'pdf') {
-                                    $image = 'pdf-1.png';
-                                } elseif ($mail->formatMail == 'docx') {
-                                    $image = 'word-1.png';
-                                } elseif ($mail->formatMail == 'xlsx') {
-                                    $image = 'excel-1.png';
-                                } elseif ($mail->formatMail == 'csv') {
-                                    $image = 'csv-1.png';
-                                } elseif ($mail->formatMail == 'xml') {
-                                    $image = 'xml-2.png';
-                                }
-                            @endphp
-
-                            <div class="card-image">
-                                <img src="{{ asset('assets/img/' . $image) }}" alt="" class="card-img" />
-                            </div>
-
-                        </div>
-
-
-
-                        <div class="card-content">
-                            <h2 class="name">Mail</h2>
-
-                            <p>Nom : {{ $mail->nomMail }}</p>
-                            <div x-data="{ option: false }">
-                              
-                                <button class="button-7 " role="button" @click="option = !option">Options</button>
-                                <div x-show="option">
-                                    <div class="d-flex   justify-content-between my-2 gap-5 ">
-
-                                        <a href="{{ route('user.mail.edit', ['mail' => $mail->idMail]) }}"
-                                            style="text-decoration:none;color : black; " class='bx bxs-folder mt-1'>
-                                        </a>
-
-
-
-                                        <a href="{{ route('user.downloadingmail', ['mail' => $mail->idMail]) }}"
-                                            style="text-decoration:none;color : black; " class='bx bxs-download mt-1'>
-                                        </a>
-
-                                        <livewire:favorite :mail="$mail->idMail" :favorite="$favorite->idCat" />
-                                            <livewire:report :mail="$mail->idMail" :report="$report->idCat" />
-                                        <form action="{{ route('user.mail.destroy', ['mail' => $mail->idMail]) }}"
-                                            method="post">
-                                            @csrf
-                                            @method('delete')
-                                            <button class='bx bxs-trash'
-                                                style=" background: none;color: black;border: none; padding: 0;font: inherit; cursor: pointer; outline: inherit; "
-                                                class="mb-5">
-                                            </button>
-
-
-                                        </form>
-                           
-                                    </div>
-
-                                </div>
-
-
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-
-
-        </div>
-    </div>
-
-
-
-@endsection
-
-@section('js')
-
-@endsection --}}
-
-
-
 @extends('layouts.app')
 
 @section('title', 'Courriers')
@@ -126,6 +9,7 @@
     <link rel="stylesheet" href="{{ asset('assets/user/css/doc.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/user/css/subnav.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/user/css/fontawesome-free-6.4.0-web/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/user/css/fontawesome-free-6.4.0-web/css/regular.css') }}">
     <script src="{{ asset('assets/user/js/jquery-3.7.0.min.js') }}"></script>
 @endsection
 
@@ -170,10 +54,29 @@ $report = DB::table('categories')
                            
 
                     </ul>
-                    <div class=" d-flex  justify-content-start">
-                        <input class="form-control  " type="search" placeholder="Search" aria-label="Search">
-
-
+                    @php 
+                    $admin = DB::table('users')->where('id',session('loginId'))->select('users.statut')->first();
+                  @endphp
+                  @if($admin->statut == 1)
+                  <div class="mx-2">
+                      <a class="btn btn-outline-primary" href="{{route('admin.home')}}">
+                            Dashboard
+                      </a>
+                  </div>
+                  @endif
+                    <div class="profile_info" style="z-index :200">
+                        <img src="{{asset('assets/img/client_img.png')}}" alt="#">
+                        <div class="profile_info_iner">
+                            @php
+                                $infos = DB::table('users')->where('id',session('loginId'))->first();
+                            @endphp
+                            <p>Bienvenue utilisateur</p>
+                            <h5>{{$infos->nom}} {{$infos->prenom}}</h5>
+                            <div class="profile_info_details">
+                                <a href="{{route('user.profil',['user'=>$infos->id])}}">Mon profil <i class="fa-regular fa-user"></i></a>
+                                <a href="{{route('logout')}}">Déconnexion <i class="ti-shift-left"></i></a>
+                            </div>
+                        </div>
                     </div>
 
 

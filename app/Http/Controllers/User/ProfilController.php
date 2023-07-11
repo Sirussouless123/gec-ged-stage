@@ -13,19 +13,12 @@ use App\Http\Requests\User\ProfilRequest;
 class ProfilController extends Controller
 {
 
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(User $user)
     {
         $services = Service::all();
-        return view('user.register', ['user' => $user, 'services' => $services]);
+        return view('user.edit', ['user' => $user, 'services' => $services]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(User $user, ProfilRequest $request)
     {
         $data =  $request->validated();
@@ -48,11 +41,5 @@ class ProfilController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+   
 }

@@ -3,12 +3,12 @@
     $label ??= '';
     $name ??= strtolower($label);
     $type ??= 'text';
-    $value ??= '';
+    $value ??= null;
     $placeholder ??= '';
 @endphp
 <div @class(['form-group', $class])>
     <label for="{{ $name }}">{{ $label }}</label>
-    <input type="{{ $type }}" id="{{ $name }} " name="{{ $name }}" value="{{ $value }} "
+    <input type="{{ $type }}" id="{{ $name }} " name="{{ $name }}" value="{{ $value }}"
         class="form-control @error($name) is-invalid @enderror" placeholder="{{ $placeholder }}">
     @error($name)
         <div class="invalid-feedback">

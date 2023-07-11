@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Admin | @yield('title')</title>
-    {{-- <link rel="icon" href="{{ asset('assets/img/logo.png') }}" type="image/png"> --}}
+    <link rel="icon" href="{{ asset('assets/img/text-3.png') }}" type="image/png">
 
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap1.min.css') }}" />
 
@@ -38,18 +38,26 @@
     <link rel="stylesheet" href="{{ asset('assets/css/metisMenu.css') }}">
 
     <link rel="stylesheet" href="{{ asset('assets/css/style1.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/user/css/fontawesome-free-6.4.0-web/css/regular.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/user/css/fontawesome-free-6.4.0-web/css/all.min.css') }}">
+
+
     <link rel="stylesheet" href="{{ asset('assets/css/colors/default.css') }}" id="colorSkinCSS">
 </head>
 
 <body class="crm_body_bg">
-@php
-      $infos = DB::table("users")->where('users.id',session('loginId'))->first();
-      $route = request()->route()->getName();
-@endphp
+    @php
+        $infos = DB::table('users')
+            ->where('users.id', session('loginId'))
+            ->first();
+        $route = request()
+            ->route()
+            ->getName();
+    @endphp
 
     <nav class="sidebar">
         <div class="logo bg-secondary d-flex justify-content-between">
-            <a href="{{route('admin.home')}}" class="mx-4" style="text-decoration:none;">GED-GEC</a>
+            <a href="{{ route('admin.home') }}" class="mx-4" style="text-decoration:none;">GED-GEC</a>
             <div class="sidebar_close_icon d-lg-none">
                 <i class="ti-close"></i>
             </div>
@@ -62,8 +70,11 @@
                     <span>Dashboard</span>
                 </a>
                 <ul>
-                    <li><a class=" {{ str_contains($route,'home') ? 'active' : ''}}" href="{{route('admin.home')}}">Informations générales</a></li>
-                    <li><a href="{{route('user.document.index')}}">Page de gestion</a></li>
+                    <li><a class=" {{ str_contains($route, 'home') ? 'active' : '' }}"
+                            href="{{ route('admin.home') }}">Informations générales</a></li>
+                    <li><a href="{{ route('user.document.index') }}">Page de gestion</a></li>
+                    <li><a href="{{ route('admin.user.index') }}"
+                            class=" {{ str_contains($route, 'user') ? 'active' : '' }}">Utilisateurs</a></li>
                 </ul>
             </li>
             <li class>
@@ -72,10 +83,13 @@
                     <span>Pages</span>
                 </a>
                 <ul>
-                    <li><a href="{{route('admin.department.index')}}" class="{{ str_contains($route,'department') ? 'active' : ''}}">Départements</a></li>
-                    <li><a href="{{route('admin.service.index')}}" class="{{ str_contains($route,'service') ? 'active' : ''}}">Services</a></li>
-                    <li><a href="{{route('admin.category.index')}}" class="{{ str_contains($route,'category') ? 'active' : ''}}">Catégories</a></li>
-                   
+                    <li><a href="{{ route('admin.department.index') }}"
+                            class="{{ str_contains($route, 'department') ? 'active' : '' }}">Départements</a></li>
+                    <li><a href="{{ route('admin.service.index') }}"
+                            class="{{ str_contains($route, 'service') ? 'active' : '' }}">Services</a></li>
+                    <li><a href="{{ route('admin.category.index') }}"
+                            class="{{ str_contains($route, 'category') ? 'active' : '' }}">Catégories</a></li>
+
                 </ul>
             </li>
         </ul>
@@ -90,15 +104,16 @@
                         <div class="sidebar_icon d-lg-none">
                             <i class="ti-menu"></i>
                         </div>
-                       
-                            <div class="profile_info">
-                                <img src="{{asset('assets/img/text-3.png')}}" alt="#">
-                                <div class="profile_info_iner">
-                                    <p>Welcome Admin!</p>
-                                    <h5>{{ $infos->nom}} {{$infos->prenom}}</h5>
-                                    <div class="profile_info_details">
-                                        <a href="{{route('logout')}}">Log Out <i class="ti-shift-left"></i></a>
-                                    </div>
+
+                        <div class="profile_info">
+                            <img src="{{ asset('assets/img/text-3.png') }}" alt="#">
+                            <div class="profile_info_iner">
+                                <p>Welcome Admin!</p>
+                                <h5>{{ $infos->nom }} {{ $infos->prenom }}</h5>
+                                <div class="profile_info_details">
+                                    <a href="{{ route('user.profil', ['user' => $infos->id]) }}">Mon profil <i
+                                            class="fa-regular fa-user"></i></a>
+                                    <a href="{{ route('logout') }}">Déconnexion <i class="ti-shift-left"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -106,14 +121,16 @@
                 </div>
             </div>
         </div>
-
-        <div class="main_content_iner ">
-               @yield('content')
         </div>
 
-        <div class="footer_part">
+        <div class="main_content_iner ">
+            @yield('content')
+           
+       
+
+        <div class="footer_part ">
             <div class="container-fluid">
-                <div class="row">
+                <div class="row d-flex align-items-center">
                     <div class="col-lg-12 col-sm-12">
                         <div class="footer_iner text-center">
                             <p>2023 © GED-GEC - Dashboard</a></p>
@@ -122,8 +139,9 @@
                 </div>
             </div>
         </div>
+    </div>
     </section>
-    
+
 
     <script src="{{ asset('assets/js/jquery1-3.4.1.min.js') }}"></script>
 

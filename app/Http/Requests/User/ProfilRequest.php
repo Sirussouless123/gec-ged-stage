@@ -24,7 +24,7 @@ class ProfilRequest extends FormRequest
         return [
             'nom'=>'required',
             'prenom'=>'required',
-            'email'=>'required|unique:users,email',
+            'email'=>'email',
             'motdepasse'=>'required|min:2',
             'dateNaissance'=>'required',
             'villeNaissance'=>'required',
