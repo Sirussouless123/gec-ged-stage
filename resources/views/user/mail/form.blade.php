@@ -11,9 +11,9 @@
 
 
 @section('content')
-
+<div class="center-form">
+   <div class="container-log">
     <h1 class="my-3">@yield('title')</h1>
-
     <form action="{{ route($mail->exists ? 'user.mail.update' : 'user.mail.store', ['mail' => $mail]) }}" method="post"
         class="v-stack gap-2" enctype="multipart/form-data">
         @method($mail->exists ? 'put' : 'post')
@@ -22,14 +22,14 @@
         <div class="form first">
             <div class="details personal">
                 @if (Session::has('fail'))
-                    <div class="alert alert-danger">{{ Session::get('fail') }}</div>
+                    <div class="alert alert-danger" style="background: #dc354691;">{{ Session::get('fail') }}</div>
                 @endif
                 <div class="fields">
                     <div class="input-field">
                         <label for="nomMail">Nom </label>
                         <input type="text" placeholder="Nom du mail"
                             value="{{ old('nomMail') ? old('nomMail') : $mail->nomMail }}" name="nomMail">
-                        <span class="text-danger">
+                        <span class="text-danger" style="color: red;">
                             @error('nomMail')
                                 {{ $message }}
                             @enderror
@@ -45,7 +45,7 @@
                     <div class="input-field">
                         <label for="document">Document</label>
                         <input type="file" name="document" id="document">
-                        <span class="text-danger">
+                        <span class="text-danger" style="color: red;">
                             @error('document')
                                 {{ $message }}
                             @enderror
@@ -61,18 +61,12 @@
                                 <option value="{{ $service->idSer }}">{{ $service->nomSer }}</option>
                             @endforeach
                         </select>
-                        <span class="text-danger">
+                        <span class="text-danger" style="color: red;">
                             @error('service_id')
                                 {{ $message }}
                             @enderror
                         </span>
                     </div>
-
-
-
-
-
-
 
                 </div>
                 
@@ -89,4 +83,10 @@
 
         </div>
     </form>
+   </div>
+</div>
+
+   
+
+
 @endsection

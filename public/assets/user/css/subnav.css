@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700&display=swap');
+
+body{
+
+    font-family: 'Urbanist', sans-serif;
+    overflow-x: hidden;
+}
+
+a{
+
+    text-decoration: none;
+    color: currentColor;
+}
+
+a:hover{
+
+    color: currentColor;
+}
+
+.subnav{
+
+    width: 100vw;
+    height: 100px;
+    background-color: #fff;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 25%);
+    display: flex;
+    align-items: center;
+   
+   
+}
+
+.subnav .container-fluid{
+
+    width: 100%;
+    height: 100;
+    padding: 0 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}

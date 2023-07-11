@@ -13,16 +13,15 @@ class Search extends Component
     public $search;
 
    
-    public  $mails = [] ;
+    public  $results = [] ;
 
-    public $documents = [] ;
+    
  
     public function updatedSearch(){
      
         if (strlen($this->search) >2 ){
          $words= '%'.$this->search.'%';
-              $this->mails = Mail::where('nomMail','like',$words)->where('user_id',session('loginId'))->get();
-           $this->documents = Document::where("nomDoc","like",$words)->where('user_id',session('loginId'))->get();
+              $this->results = Mail::where('nomMail','like',$words)->where('user_id',session('loginId'))->get();
         }
     }
     public function render()

@@ -1,10 +1,11 @@
 
-body {
-    min-height: 100vh;
+.center-form{
+    height: 100vh;
+    width : 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: --body-color;
+   
 }
  .container-log {
     position: relative;
@@ -13,7 +14,8 @@ body {
     border-radius: 15px;
     padding: 30px;
     margin: 0 15px;
-    background-color: #fff;
+    /* background-color: #0000008e; */
+     background-color: #fff; 
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
     margin-left: 200px;
 }
@@ -38,6 +40,7 @@ body {
     margin-top: 16px;
     min-height: 100px;
     background-color: #fff;
+   
 }
 .container-log form .details {
     margin-top: 30px;

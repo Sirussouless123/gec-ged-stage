@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Hash;
 class AuthentificationController extends Controller
 {
     public function show(){
-       // dd(session()->has('status') && session('status') == 'isLogin' );
         $services = Service::all();
         return view('user.register',[
             'services'=>$services,
@@ -24,15 +23,13 @@ class AuthentificationController extends Controller
 
     public function showLogin(){
        
-     
         return view('user.login');
     }
 
     public function registerUser(SignupRequest $request){
         
-        
        $data = $request->validated();
-      
+       
        if ($data['motdepasse'] === $data['cpwd']){
         $data['motdepasse'] = Hash::make( $data['motdepasse'] );
                   $user = User::create([
@@ -54,11 +51,18 @@ class AuthentificationController extends Controller
     }
 
     public function loginUser(loginRequest $request){
-       
-        $user = User::where('email', '=', $request->email)->first();
-        if($user->exists()){
-            if(Hash::check($request->motdepasse,$user->motdepasse)) {
-                  
+
+
+    
+        
+        $data = $request->validated();
+        $user = User::where('email', '=', $data['email'])->first();
+
+        $verif = empty($user);
+
+        if( $verif == false){
+            if(Hash::check($data['motdepasse'],$user->motdepasse)) {  
+               
                 session(
                     [
                         'loginId'=>$user->id,
@@ -85,13 +89,10 @@ class AuthentificationController extends Controller
     public function logout(Request $request){
 
         if(session('status')){
-
             $request->session()->forget(['status','loginId','statut']); 
             return to_route('login')->with('success','Vous êtes maintenant déconnecté');
         }else{
             return to_route('login')->with('fail','Veuillez vous connecter d\'abord');
-        }
-
-          
+        }     
     }
 }

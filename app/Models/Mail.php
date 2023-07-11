@@ -32,5 +32,21 @@ class Mail extends Model
     public function scopeOnline($query){
         return $query->where('user_id', session('loginId'));
  }
+
+ public function getPathFile(Mail $mail){
+    $name = $mail->nomMail.'.'.$mail->formatMail;
+    $path = 'storage/cour_'.session('loginId');
+
+        return public_path($path . '/' . $name);
+ }
+ public function getPath(Mail $mail){
+    $name = $mail->nomMail.'.'.$mail->formatMail;
+    $path = 'storage/cour_'.session('loginId');
+
+        return $info = [
+            'name'=>$name,
+            'path'=>public_path($path),
+        ];
+ }
   
 }

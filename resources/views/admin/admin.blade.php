@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="zxx">
 
-
 <head>
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Admin | @yield('title')</title>
-    <link rel="icon" href="{{ asset('assets/img/logo.png') }}" type="image/png">
+    {{-- <link rel="icon" href="{{ asset('assets/img/logo.png') }}" type="image/png"> --}}
 
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap1.min.css') }}" />
 
@@ -43,9 +42,9 @@
 </head>
 
 <body class="crm_body_bg">
-
 @php
       $infos = DB::table("users")->where('users.id',session('loginId'))->first();
+      $route = request()->route()->getName();
 @endphp
 
     <nav class="sidebar">
@@ -63,8 +62,8 @@
                     <span>Dashboard</span>
                 </a>
                 <ul>
-                    <li><a class="active" href="{{route('admin.home')}}">Informations générales</a></li>
-
+                    <li><a class=" {{ str_contains($route,'home') ? 'active' : ''}}" href="{{route('admin.home')}}">Informations générales</a></li>
+                    <li><a href="{{route('user.document.index')}}">Page de gestion</a></li>
                 </ul>
             </li>
             <li class>
@@ -73,89 +72,12 @@
                     <span>Pages</span>
                 </a>
                 <ul>
-                    <li><a href="{{route('admin.department.index')}}">Départements</a></li>
-                    <li><a href="{{route('admin.service.index')}}">Services</a></li>
-                    <li><a href="{{route('admin.category.index')}}">Catégories</a></li>
+                    <li><a href="{{route('admin.department.index')}}" class="{{ str_contains($route,'department') ? 'active' : ''}}">Départements</a></li>
+                    <li><a href="{{route('admin.service.index')}}" class="{{ str_contains($route,'service') ? 'active' : ''}}">Services</a></li>
+                    <li><a href="{{route('admin.category.index')}}" class="{{ str_contains($route,'category') ? 'active' : ''}}">Catégories</a></li>
+                   
                 </ul>
             </li>
-            {{-- <li class>
-                <a class="has-arrow" href="#" aria-expanded="false">
-                    <img src="img/menu-icon/3.svg" alt>
-                    <span>Applications</span>
-                </a>
-                <ul>
-                    <li><a href="mail_box.html">Mail Box</a></li>
-                    <li><a href="chat.html">Chat</a></li>
-                    <li><a href="faq.html">FAQ</a></li>
-                </ul>
-            </li>
-            <li class>
-                <a class="has-arrow" href="#" aria-expanded="false">
-                    <img src="img/menu-icon/4.svg" alt>
-                    <span>UI Component</span>
-                </a>
-                <ul>
-                    <li><a href="#">Elements</a>
-                        <ul>
-                            <li><a href="buttons.html">Buttons</a></li>
-                            <li><a href="dropdown.html">Dropdowns</a></li>
-                            <li><a href="Badges.html">Badges</a></li>
-                            <li><a href="Loading_Indicators.html">Loading Indicators</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">Components</a>
-                        <ul>
-                            <li><a href="notification.html">Notifications</a></li>
-                            <li><a href="progress.html">Progress Bar</a></li>
-                            <li><a href="carousel.html">Carousel</a></li>
-                            <li><a href="cards.html">cards</a></li>
-                            <li><a href="Pagination.html">Pagination</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            <li class>
-                <a class="has-arrow" href="#" aria-expanded="false">
-                    <img src="img/menu-icon/5.svg" alt>
-                    <span>Widgets</span>
-                </a>
-                <ul>
-                    <li><a href="chart_box_1.html">Chart Boxes 1</a></li>
-                    <li><a href="profilebox.html">Profile Box</a></li>
-                </ul>
-            </li>
-            <li class>
-                <a class="has-arrow" href="#" aria-expanded="false">
-                    <img src="img/menu-icon/6.svg" alt>
-                    <span>Forms</span>
-                </a>
-                <ul>
-                    <li><a href="#">Elements</a>
-                        <ul>
-                            <li><a href="data_table.html">Data Tables</a></li>
-                            <li><a href="bootstrap_table.html">Grid Tables</a></li>
-                            <li><a href="datepicker.html">Date Picker</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">Widgets</a>
-                        <ul>
-                            <li><a href="Input_Selects.html">Input Selects</a></li>
-                            <li><a href="Input_Mask.html">Input Mask</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            <li class>
-                <a class="has-arrow" href="#" aria-expanded="false">
-                    <img src="img/menu-icon/7.svg" alt>
-                    <span>Charts</span>
-                </a>
-                <ul>
-                    <li><a href="chartjs.html">ChartJS</a></li>
-                    <li><a href="apex_chart.html">Apex Charts</a></li>
-                    <li><a href="chart_sparkline.html">chart sparkline</a></li>
-                </ul>
-            </li> --}}
         </ul>
     </nav>
 
@@ -168,25 +90,7 @@
                         <div class="sidebar_icon d-lg-none">
                             <i class="ti-menu"></i>
                         </div>
-                        {{-- <div class="serach_field-area">
-                            <div class="search_inner">
-                                <form action="#">
-                                    <div class="search_field">
-                                        <input type="text" placeholder="Search here...">
-                                    </div>
-                                    <button type="submit"> <img src="{{asset('assets/img/icon/icon_search.svg')}}" alt> </button>
-                                </form>
-                            </div>
-                        </div> --}}
-                        {{-- <div class="header_right d-flex justify-content-between align-items-center">
-                            <div class="header_notification_warp d-flex align-items-center">
-                                <li>
-                                    <a href="#"> <img src="img/icon/bell.svg" alt> </a>
-                                </li>
-                                <li>
-                                    <a href="#"> <img src="img/icon/msg.svg" alt> </a>
-                                </li>
-                            </div> --}}
+                       
                             <div class="profile_info">
                                 <img src="{{asset('assets/img/text-3.png')}}" alt="#">
                                 <div class="profile_info_iner">
@@ -219,14 +123,7 @@
             </div>
         </div>
     </section>
-    {{-- <div class="container">
-        @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-        @yield('content')
-    </div> --}}
+    
 
     <script src="{{ asset('assets/js/jquery1-3.4.1.min.js') }}"></script>
 

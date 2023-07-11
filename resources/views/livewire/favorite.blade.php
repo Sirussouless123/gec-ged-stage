@@ -1,8 +1,11 @@
 
-<span @click=" $wire.changeState() " >
+
+
+<span @click=" $wire.changeState()" style="cursor: pointer">
    
         @php
         $verif = DB::table('category_mails')->where('mail_id',$mail)->where('category_id',$favorite)->exists();
+      
     @endphp
         <svg xmlns="http://www.w3.org/2000/svg" fill="{{ $verif == true ? 'black' : 'white' }}" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
             style="width: 28px; height : 22px; ">

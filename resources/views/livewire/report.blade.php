@@ -1,4 +1,4 @@
-<span @click="$wire.changeState()">
+<span @click=" $wire.changeState() " style="cursor: pointer">
     @php
     $verif = DB::table('category_mails')->where('mail_id',$mail)->where('category_id',$report)->exists();
   
