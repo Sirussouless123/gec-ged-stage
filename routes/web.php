@@ -13,6 +13,7 @@ use App\Http\Controllers\User\DocumentController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Auth\AuthentificationController;
+use App\Http\Controllers\wordToPdfController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +55,8 @@ Route::prefix('user')->name('user.')->middleware(['isAdmin'])->group( function()
    Route::get('/document/tcpdf/{user}/{document}',[TCPDFController::class,'downloadPdf']);
    Route::get('/mail/tcpdf/{user}/{mail}',[TCPDFController::class,'downloadMail']);
    Route::get('/profil/{user}',[DocumentController::class,'showProfile'])->name('profil');
+   Route::post('document/convert',[wordToPdfController::class,'convert'])->name('document.convert');
+   Route::post('mail/convert',[wordToPdfController::class,'convertMail'])->name('mail.convert');
 });
 
 

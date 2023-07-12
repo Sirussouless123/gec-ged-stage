@@ -153,6 +153,13 @@
                                     data-bs-target="#actions-tab-pane" type="button" role="tab"
                                     aria-controls="actions-tab-pane" aria-selected="false">Actions</button>
                             </li>
+                            @if ($mail->formatMail == 'docx')
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="convert-tab" data-bs-toggle="tab"
+                                    data-bs-target="#convert-tab-pane" type="button" role="tab"
+                                    aria-controls="convert-tab-pane" aria-selected="false">Convertir fichier en word</button>
+                            </li>
+                            @endif
 
                         </ul>
                         <style>
@@ -180,7 +187,7 @@
                                 ->first();
                             $name = $mail->nomMail . '.' . $mail->formatMail;
                             $path = 'storage/cour_' . session('loginId');
-                            
+                            $mailemp = new App\Models\Mail;
                         @endphp
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active infos" id="infos-tab-pane" role="tabpanel"
@@ -194,6 +201,33 @@
                                     <h6>Service : {{ $nomSer->nomSer }}</h6>
                                 </div>
                             </div>
+                            <div class="tab-pane fade show active convert" id="convert-tab-pane" role="tabpanel"
+                            aria-labelledby="convert-tab" tabindex="0">
+                            <h4 class="text-center">Word en Pdf</h4>
+                            <div class="d-flex gap-1 gy-2 flex-column v-stack mt-2 justify-content-center">
+                                <form action="{{ route('user.mail.convert') }}" method="post"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="">Fichier word</label>
+                                        <input type="file" id="hiddenfile" style="visibility:hidden;" />
+                                        <input class="form-control" type="hidden" name="text1" size="50"
+                                            value="{{ $mailemp->getPathFile($mail) }}" />
+                                        <input class="form-control" type="hidden" name="text2" size="50"
+                                            value="{{ $mailemp->getPath($mail)['path'] }}" />
+                                        <input class="form-control" type="hidden" name="text3" size="50"
+                                            value="{{ $mailemp->getPath($mail)['name'] }}" />
+
+                                        <button class="btn btn-outline-primary" type="submit" value="Browse..."
+                                            onclick="document.getElementById('hiddenfile').click.getFileName();"
+                                            name="submit">Continuer</button>
+
+                                    </div>
+                                </form>
+
+                            </div>
+
+                        </div>
                             <div class="tab-pane fade" id="actions-tab-pane" role="tabpanel"
                                 aria-labelledby="actions-tab" tabindex="0">
                                 <div class="d-flex gap-1 gy-2 flex-column v-stack mt-2">
@@ -222,6 +256,7 @@
                                             style="text-decoration:none;color : black; " class='bx bxs-download mt-1'>
                                         </a>
                                     </div>
+                                    @if($mail->formaMail == 'pdf')
                                     <div class="d-flex gap-2">
                                         <h6>Ouvrir courrier : </h6>
 
@@ -244,8 +279,8 @@
                                                     </div>
                                                     <div class="modal-body">
 
-                                                        <iframe src="{{ '/' . $path . '/' . $name }}" width="1366"
-                                                            height="768"></iframe>
+                                                        <embed src="{{ '/' . $path . '/' . $name }}" width="1366"
+                                                            height="768" />
 
                                                     </div>
                                                     <div class="modal-footer">
@@ -256,7 +291,7 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                 @endif
 
                                     <div class="d-flex gap-2" x-data>
                                         <h6>Ajouter/Supprimer des favoris : </h6>

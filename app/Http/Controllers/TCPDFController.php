@@ -23,10 +23,11 @@ class TCPDFController extends Controller
         if ($document->formatDoc == 'pdf') {
             $parser = new \Smalot\PdfParser\Parser();
             $pdf = $parser->parseFile($document->getPathFile($document));
-            
-            $text = $pdf->getText();
-            $convert = '' . $text . '';
             $infos = $document->getPath($document);
+            $text = $pdf->getText();
+           
+            $convert = '' . $text . '';
+           
             $certificate = 'file://' . base_path() . '/storage/app/certificate/gedgec.crt';
             // set additional information in the signature
             $info = array(
