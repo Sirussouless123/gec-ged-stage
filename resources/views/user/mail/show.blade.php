@@ -63,16 +63,19 @@
 
                     </ul>
                     <div class="profile_info" style="z-index :200">
-                        <img src="{{asset('assets/img/client_img.png')}}" alt="#">
+                        <img src="{{ asset('assets/img/client_img.png') }}" alt="#">
                         <div class="profile_info_iner">
                             @php
-                                $infos = DB::table('users')->where('id',session('loginId'))->first();
+                                $infos = DB::table('users')
+                                    ->where('id', session('loginId'))
+                                    ->first();
                             @endphp
                             <p>Bienvenue utilisateur</p>
-                            <h5>{{$infos->nom}} {{$infos->prenom}}</h5>
+                            <h5>{{ $infos->nom }} {{ $infos->prenom }}</h5>
                             <div class="profile_info_details">
-                                <a href="{{route('user.user.edit',['user'=>$infos->id])}}">Mon profil <i class="ti-user"></i></a>
-                                <a href="{{route('logout')}}">Log Out <i class="ti-shift-left"></i></a>
+                                <a href="{{ route('user.user.edit', ['user' => $infos->id]) }}">Mon profil <i
+                                        class="ti-user"></i></a>
+                                <a href="{{ route('logout') }}">Déconnexion <i class="ti-shift-left"></i></a>
                             </div>
                         </div>
                     </div>
@@ -96,6 +99,7 @@
                                 $route = request()
                                     ->route()
                                     ->getName();
+                                  $verif =  $mail->formatMail == 'docx' ? true : false;
                             @endphp
                             <ul class="text-start">
                                 <li class="{{ str_contains($route, 'index') ? 'active' : '' }}"><a
@@ -153,14 +157,6 @@
                                     data-bs-target="#actions-tab-pane" type="button" role="tab"
                                     aria-controls="actions-tab-pane" aria-selected="false">Actions</button>
                             </li>
-                            @if ($mail->formatMail == 'docx')
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="convert-tab" data-bs-toggle="tab"
-                                    data-bs-target="#convert-tab-pane" type="button" role="tab"
-                                    aria-controls="convert-tab-pane" aria-selected="false">Convertir fichier en word</button>
-                            </li>
-                            @endif
-
                         </ul>
                         <style>
                             .infos {
@@ -187,7 +183,7 @@
                                 ->first();
                             $name = $mail->nomMail . '.' . $mail->formatMail;
                             $path = 'storage/cour_' . session('loginId');
-                            $mailemp = new App\Models\Mail;
+                            $mailemp = new App\Models\Mail();
                         @endphp
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active infos" id="infos-tab-pane" role="tabpanel"
@@ -201,33 +197,7 @@
                                     <h6>Service : {{ $nomSer->nomSer }}</h6>
                                 </div>
                             </div>
-                            <div class="tab-pane fade show active convert" id="convert-tab-pane" role="tabpanel"
-                            aria-labelledby="convert-tab" tabindex="0">
-                            <h4 class="text-center">Word en Pdf</h4>
-                            <div class="d-flex gap-1 gy-2 flex-column v-stack mt-2 justify-content-center">
-                                <form action="{{ route('user.mail.convert') }}" method="post"
-                                    enctype="multipart/form-data">
-                                    @csrf
-                                    <div class="form-group">
-                                        <label for="">Fichier word</label>
-                                        <input type="file" id="hiddenfile" style="visibility:hidden;" />
-                                        <input class="form-control" type="hidden" name="text1" size="50"
-                                            value="{{ $mailemp->getPathFile($mail) }}" />
-                                        <input class="form-control" type="hidden" name="text2" size="50"
-                                            value="{{ $mailemp->getPath($mail)['path'] }}" />
-                                        <input class="form-control" type="hidden" name="text3" size="50"
-                                            value="{{ $mailemp->getPath($mail)['name'] }}" />
 
-                                        <button class="btn btn-outline-primary" type="submit" value="Browse..."
-                                            onclick="document.getElementById('hiddenfile').click.getFileName();"
-                                            name="submit">Continuer</button>
-
-                                    </div>
-                                </form>
-
-                            </div>
-
-                        </div>
                             <div class="tab-pane fade" id="actions-tab-pane" role="tabpanel"
                                 aria-labelledby="actions-tab" tabindex="0">
                                 <div class="d-flex gap-1 gy-2 flex-column v-stack mt-2">
@@ -256,42 +226,43 @@
                                             style="text-decoration:none;color : black; " class='bx bxs-download mt-1'>
                                         </a>
                                     </div>
-                                    @if($mail->formaMail == 'pdf')
-                                    <div class="d-flex gap-2">
-                                        <h6>Ouvrir courrier : </h6>
+                                    @if ($mail->formaMail == 'pdf')
+                                        <div class="d-flex gap-2">
+                                            <h6>Ouvrir courrier : </h6>
 
-                                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#staticBackdrop">
-                                            Ouvrir
-                                        </button>
+                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#staticBackdrop">
+                                                Ouvrir
+                                            </button>
 
 
-                                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
-                                            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
-                                            aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-scrollable modal-fullscreen">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title
-                                                        </h1>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Fermer"></button>
-                                                    </div>
-                                                    <div class="modal-body">
+                                            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+                                                data-bs-keyboard="false" tabindex="-1"
+                                                aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-scrollable modal-fullscreen">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal
+                                                                title
+                                                            </h1>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Fermer"></button>
+                                                        </div>
+                                                        <div class="modal-body">
 
-                                                        <embed src="{{ '/' . $path . '/' . $name }}" width="1366"
-                                                            height="768" />
+                                                            <embed src="{{ '/' . $path . '/' . $name }}" width="1366"
+                                                                height="768" />
 
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">Fermer</button>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Fermer</button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                 @endif
+                                    @endif
 
                                     <div class="d-flex gap-2" x-data>
                                         <h6>Ajouter/Supprimer des favoris : </h6>
@@ -301,6 +272,33 @@
                                         <h6>Ajouter/Supprimer des importants : </h6>
                                         <livewire:report :mail="$mail->idMail" :report="$report->idCat" />
                                     </div>
+                                    @if ($verif == true)
+                                        <div class="d-flex gap-1 gy-2 flex-column v-stack mt-2 justify-content-center">
+                                            <h4 class="text-center">Word en Pdf</h4>
+                                            <form action="{{ route('user.mail.convert') }}" method="post"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                <div class="form-group">
+                                                    <label for="">Convertir</label>
+                                                    <input type="file" id="hiddenfile" style="visibility:hidden;" />
+                                                    <input class="form-control" type="hidden" name="text1"
+                                                        size="50" value="{{ $mailemp->getPathFile($mail) }}" />
+                                                    <input class="form-control" type="hidden" name="text2"
+                                                        size="50" value="{{ $mailemp->getPath($mail)['path'] }}" />
+                                                    <input class="form-control" type="hidden" name="text3"
+                                                        size="50" value="{{ $mailemp->getPath($mail)['name'] }}" />
+
+                                                    <button class="btn btn-outline-primary" type="submit"
+                                                        value="Browse..."
+                                                        onclick="document.getElementById('hiddenfile').click.getFileName();"
+                                                        name="submit">Continuer</button>
+
+                                                </div>
+                                            </form>
+
+                                        </div>
+                                      @endif
+
 
                                 </div>
                             </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\User;
 use App\Models\Service;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SignupRequest;
 use Illuminate\Support\Facades\Hash;
@@ -15,7 +16,7 @@ class UserController extends Controller
     public function index()
     {
           
-          return view('admin.user.index',['users'=>User::paginate(4)]);
+          return view('admin.user.index',['users'=>User::where('statut',0)->paginate(4)]);
     }
 
     public function create()
@@ -75,8 +76,12 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+        $delete = DB::table('users')->where('id',$user->id)->delete();
+         
+        if ($delete == 1){
+            return to_route('admin.user.index')->with('success','Utilisateur supprimé avec succès');
+        }
     }
 }

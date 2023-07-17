@@ -57,13 +57,7 @@ $report = DB::table('categories')
                     @php 
                     $admin = DB::table('users')->where('id',session('loginId'))->select('users.statut')->first();
                   @endphp
-                  @if($admin->statut == 1)
-                  <div class="mx-2">
-                      <a class="btn btn-outline-primary" href="{{route('admin.home')}}">
-                            Dashboard
-                      </a>
-                  </div>
-                  @endif
+                
                     <div class="profile_info" style="z-index :200">
                         <img src="{{asset('assets/img/client_img.png')}}" alt="#">
                         <div class="profile_info_iner">
@@ -73,6 +67,12 @@ $report = DB::table('categories')
                             <p>Bienvenue utilisateur</p>
                             <h5>{{$infos->nom}} {{$infos->prenom}}</h5>
                             <div class="profile_info_details">
+                                @php 
+                                $admin = DB::table('users')->where('id',session('loginId'))->select('users.statut')->first();
+                              @endphp
+                                @if($admin->statut == 1)
+                                <a href="{{route('admin.home')}}">Dashboard <i class=" fa-house"></i></a>
+                                @endif
                                 <a href="{{route('user.profil',['user'=>$infos->id])}}">Mon profil <i class="fa-regular fa-user"></i></a>
                                 <a href="{{route('logout')}}">Déconnexion <i class="ti-shift-left"></i></a>
                             </div>

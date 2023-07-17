@@ -64,7 +64,7 @@
                             <div class="profile_info_details">
                                 <a href="{{ route('user.user.edit', ['user' => $infos->id]) }}">Mon profil <i
                                         class="ti-user"></i></a>
-                                <a href="{{ route('logout') }}">Log Out <i class="ti-shift-left"></i></a>
+                                <a href="{{ route('logout') }}">Déconnexion <i class="ti-shift-left"></i></a>
                             </div>
                         </div>
                     </div>
@@ -88,6 +88,8 @@
                                 $route = request()
                                     ->route()
                                     ->getName();
+                                
+                             $verif = $document->formatDoc == 'docx' ? true : false;
                             @endphp
                             <ul class="text-start">
                                 <li class="{{ str_contains($route, 'document') ? 'active' : '' }}"><a
@@ -144,14 +146,7 @@
                                     data-bs-target="#actions-tab-pane" type="button" role="tab"
                                     aria-controls="actions-tab-pane" aria-selected="false">Actions</button>
                             </li>
-                            @if ($document->formatDoc == 'docx')
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="convert-tab" data-bs-toggle="tab"
-                                        data-bs-target="#convert-tab-pane" type="button" role="tab"
-                                        aria-controls="convert-tab-pane" aria-selected="false">Convertir fichier en
-                                        word</button>
-                                </li>
-                            @endif
+                          
 
                         </ul>
                         <style>
@@ -180,8 +175,9 @@
                             $name = $document->nomDoc . '-version-' . $document->numeroVersion . '.' . $document->formatDoc;
                             $path = 'storage/doc_' . session('loginId');
                             $doc = new App\Models\Document();
-                            
-                        @endphp
+                       
+                         @endphp
+                        
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active infos" id="infos-tab-pane" role="tabpanel"
                                 aria-labelledby="infos-tab" tabindex="0">
@@ -203,33 +199,7 @@
                                     </p>
                                 </div>
                             </div>
-                            <div class="tab-pane fade show active convert" id="convert-tab-pane" role="tabpanel"
-                                aria-labelledby="convert-tab" tabindex="0">
-                                <h4 class="text-center">Word en Pdf</h4>
-                                <div class="d-flex gap-1 gy-2 flex-column v-stack mt-2 justify-content-center">
-                                    <form action="{{ route('user.document.convert') }}" method="post"
-                                        enctype="multipart/form-data">
-                                        @csrf
-                                        <div class="form-group">
-                                            <label for="">Fichier word</label>
-                                            <input type="file" id="hiddenfile" style="visibility:hidden;" />
-                                            <input class="form-control" type="hidden" name="text1" size="50"
-                                                value="{{ $doc->getPathFile($document) }}" />
-                                            <input class="form-control" type="hidden" name="text2" size="50"
-                                                value="{{ $doc->getPath($document)['path'] }}" />
-                                            <input class="form-control" type="hidden" name="text3" size="50"
-                                                value="{{ $doc->getPath($document)['name'] }}" />
 
-                                            <button class="btn btn-outline-primary" type="submit" value="Browse..."
-                                                onclick="document.getElementById('hiddenfile').click.getFileName();"
-                                                name="submit">Continuer</button>
-
-                                        </div>
-                                    </form>
-
-                                </div>
-
-                            </div>
                             <div class="tab-pane fade" id="actions-tab-pane" role="tabpanel"
                                 aria-labelledby="actions-tab" tabindex="0">
                                 <div class="d-flex gap-1 gy-2 flex-column v-stack mt-2">
@@ -275,7 +245,8 @@
                                                 <div class="modal-dialog modal-dialog-scrollable modal-fullscreen">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Ouverture du pdf
+                                                            <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                                                                Ouverture du pdf
                                                             </h1>
                                                             <button type="button" class="btn-close"
                                                                 data-bs-dismiss="modal" aria-label="Fermer"></button>
@@ -294,9 +265,37 @@
                                             </div>
                                         </div>
                                     @endif
+                                    @if ($verif == true)
+                                        <div class="d-flex gap-1 gy-2 flex-column v-stack  justify-content-center">
+                                            <h4 class="text-center">Word en Pdf</h4>
+                                            <form action="{{ route('user.document.convert') }}" method="post"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                <div class="form-group">
+                                                    <label for="">Convertir</label>
+                                                    <input type="file" id="hiddenfile" style="visibility:hidden;" />
+                                                    <input class="form-control" type="hidden" name="text1"
+                                                        size="50" value="{{ $doc->getPathFile($document) }}" />
+                                                    <input class="form-control" type="hidden" name="text2"
+                                                        size="50" value="{{ $doc->getPath($document)['path'] }}" />
+                                                    <input class="form-control" type="hidden" name="text3"
+                                                        size="50" value="{{ $doc->getPath($document)['name'] }}" />
+
+                                                    <button class="btn btn-outline-primary" type="submit"
+                                                        value="Browse..."
+                                                        onclick="document.getElementById('hiddenfile').click.getFileName();"
+                                                        name="submit">Continuer</button>
+
+                                                </div>
+                                            </form>
+
+                                        </div>
+                                    @endif
+                                  
 
                                 </div>
                             </div>
+
 
                         </div>
 

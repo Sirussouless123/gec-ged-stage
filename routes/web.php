@@ -36,7 +36,7 @@ Route::prefix('admin')->name('admin.')->middleware(['isAdmin','user'])->group( f
    Route::resource('department',DepartmentController::class)->except('show');
    Route::resource('service',ServiceController::class)->except('show');
    Route::resource('category',CategoryController::class)->except('show');
-   Route::resource('user',UserController::class)->except(['show','edit','update','destroy']);
+   Route::resource('user',UserController::class)->except(['show','edit','update']);
 });
 Route::prefix('user')->name('user.')->middleware(['isAdmin'])->group( function(){
    Route::resource('document',DocumentController::class)->except('show');

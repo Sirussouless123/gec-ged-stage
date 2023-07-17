@@ -64,6 +64,7 @@ class DocumentController extends Controller
 
         $format = $document->getClientOriginalExtension();
         $taille = $document->getSize();
+       
         $dateVersion = date('Y-m-d');
 
         $data = $request->validated();
@@ -74,7 +75,7 @@ class DocumentController extends Controller
         if ($verif == true) {
             return to_route('user.document.create')->with('fail', 'Changez la version du document ');
         } else {
-            if ($format == 'pdf' || $format == 'docx' || $format == 'xlsx ' || $format == 'pptx' || $format =='zip' ||$format =='rar' || $format == 'txt' || $format == 'csv' || $format == 'xml'){
+            if ($format == 'pdf' || $format == 'docx' || $format == 'xlsx ' || $format == 'pptx' || $format =='zip' ||$format =='rar' || $format == 'txt' || $format == 'csv' ){
                 
                 $document->storeAs('doc_' . session('loginId'), $data['nomDoc'] . '-version-' . $data['numeroVersion'] . "." . $format, 'public');
     
@@ -124,7 +125,6 @@ class DocumentController extends Controller
      */
     public function update(Document $document, DocumentRequest $request)
     {
-
         $data = $request->validated();
 
         $documentUpdate = $request->validated('document');
@@ -201,6 +201,8 @@ class DocumentController extends Controller
 
     public function showSearch(Document $document)
     {
+    
+     
         $nbDoc = DB::table('documents')->where('user_id',session('loginId'))->count();
         $types = DB::table('documents')->where('user_id', session('loginId'))->select('documents.type')->distinct()->get();
         $services = Service::all();

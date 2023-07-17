@@ -6,7 +6,7 @@
     <div class="container-fluid plr_30 body_white_bg pt_30">
         <div class="row justify-content-center">
 
-            <div class="col-lg-12">
+            <div class="col-md-12">
                 <div class="white_box QA_section">
                     <div class="white_box_tittle list_header">
                         <h4>Liste des utilisateurs </h4>
@@ -26,11 +26,12 @@
                         <table class="table lms_table_active">
                             <thead>
                                 <tr>
-                                    <th scope="col">N°</th>
                                     <th scope="col">Nom</th>
                                     <th scope="col">Prénom</th>
+                                    <th scope="col">Email</th>
                                     <th scope="col">Département</th>
                                     <th scope="col">Service</th>
+                                    <th scope="col">Supprimer</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -50,27 +51,31 @@
                                     ->first();  
                             @endphp
                                     <tr>
-
-
-                                        <td>
-                                            <div class="d-flex align-items-center">
-
-                                                <div class="flex-grow-1 ms-3">
-                                                    <p>{{ $user->id }}</p>
-                                                </div>
-                                            </div>
-                                        </td>
                                         <td>
                                             <p>{{ $user->nom }}</p>
                                         </td>
                                         <td>
                                             {{$user->prenom}}
                                         </td>
+                                        <td> <div class="d-flex align-items-center">
+
+                                            <div class="flex-grow-1 ms-3">
+                                                <p>{{ $user->email}}</p>
+                                            </div>
+                                        </div></td>
                                         <td>
                                             {{$nomDep->nomDep}}
                                         </td>
                                         <td>
                                             {{$nomSer->nomSer}}
+                                        </td>
+                                        <td>
+                                        <form action="{{route('admin.user.destroy',['user'=>$user])}}" method="post" class="v-stack gap-2">
+                                            @csrf
+                                            @method('delete')
+                                             <button class="btn btn-danger">Supprimer</button>
+                                        </form>
+
                                         </td>
                                     </tr>
                                 @endforeach
@@ -80,5 +85,4 @@
                 </div>
             </div>
         </div>
-        {{ $users->links() }}
     @endsection
