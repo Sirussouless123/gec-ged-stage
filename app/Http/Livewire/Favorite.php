@@ -23,11 +23,7 @@ class Favorite extends Component
                 'dateAjout'=>date('Y-m-d'),
              ]);    
 
-        
-
-           
-           
-       }else{
+                }else{
             $delete  = DB::table('category_mails')->where('mail_id',$this->mail)->where('category_id',$this->favorite)->delete();
          }
        

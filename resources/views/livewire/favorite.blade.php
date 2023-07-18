@@ -1,6 +1,3 @@
-
-
-
 <span @click=" $wire.changeState()" style="cursor: pointer">
    
         @php

@@ -307,9 +307,6 @@ class DocumentController extends Controller
     }
 
     public function showProfile(User $user){
-               
-
-
                 return view('user.profil',['user'=>$user,'services'=>Service::all()]);
     }
 }

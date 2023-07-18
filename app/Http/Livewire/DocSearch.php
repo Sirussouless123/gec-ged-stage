@@ -13,6 +13,7 @@ class DocSearch extends Component
     public $results = [];
 
     public function updatedSearch(){
+        
         if (strlen($this->search) > 2){
             $word = '%'.$this->search.'%';
               $this->results = Document::where('nomDoc','like',$word)->where('user_id',session('loginId'))->orwhere('description','like',$word)->get();
