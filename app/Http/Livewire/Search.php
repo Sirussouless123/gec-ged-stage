@@ -19,7 +19,7 @@ class Search extends Component
  
     public function updatedSearch(){
      
-        if (strlen($this->search) >2 ){
+        if (strlen($this->search) >0 ){
          $words= '%'.$this->search.'%';
               $this->results = Mail::where('nomMail','like',$words)->where('user_id',session('loginId'))->get();
         }

@@ -26,7 +26,7 @@
                                             @include('shared.input', [
                                                 'type' => 'text',
                                                 'label' => 'Nom du département',
-                                                'name' => 'nomDep',
+                                                'name' => 'nom',
                                                 'value' => $department->nomDep,
                                             ])
 

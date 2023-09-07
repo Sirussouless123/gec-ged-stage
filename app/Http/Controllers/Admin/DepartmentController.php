@@ -39,7 +39,7 @@ class DepartmentController extends Controller
         $data = $request->validated();
         
         $department = Department::create(
-           [ 'nomDep' =>$data['nomDep'],]
+           [ 'nomDep' =>$data['nom'],]
         );
 
         if ($department->exists){
@@ -73,7 +73,7 @@ class DepartmentController extends Controller
         $data = $request->validated();
        $update =  DB::table('departments')
               ->where('idDep', $department->idDep)
-              ->update(['nomDep' => $data['nomDep']]);
+              ->update(['nomDep' => $data['nom']]);
            
          if ($update == 1){
                return to_route('admin.department.index')->with( 'success','Département modifié avec succès');

@@ -36,7 +36,7 @@ class CategoryController extends Controller
         $data = $request->validated();
       
         $category = Category::create(
-           [ 'nomCat' =>$data['nomCat'],'user_id'=>$data['user_id']]
+           [ 'nomCat' =>$data['nom'],]
         );
 
         if ($category->exists){
@@ -71,7 +71,7 @@ class CategoryController extends Controller
        
        $update =  DB::table('categories')
               ->where('idCat', $category->idCat)
-              ->update(['nomCat' => $data['nomCat'],'user_id'=>$data['user_id']]);
+              ->update(['nomCat' => $data['nom'],]);
            
          if ($update == 1){
                return to_route('admin.category.index')->with( 'success','Catégorie modifiée avec succès');

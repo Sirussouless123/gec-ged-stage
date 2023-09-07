@@ -57,12 +57,12 @@
                          </div>
                         <div class="input-field">
                             <label for="service">Service</label>
-                             <select name="service_id" id="service">
+                             <select name="service" id="service">
                                    @foreach ($services as $service)
                                             <option value="{{ $service->idSer}}">{{ $service->nomSer}}</option>
                                    @endforeach
                              </select>
-                            <span style="color: #dc354691;">@error('service_id') {{$message}} @enderror</span>
+                            <span style="color: #dc354691;">@error('service') {{$message}} @enderror</span>
                          </div>
                     </div>
                     <button class="inscription" type="submit">

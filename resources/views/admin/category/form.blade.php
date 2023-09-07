@@ -22,7 +22,7 @@
             @csrf
             <input type="hidden" name="user_id" value="0">
                                         <div class>
-                                            @include('shared.input', ['type'=>'text','label'=>'Nom ', 'name'=>'nomCat','value'=>$category->nomCat])
+                                            @include('shared.input', ['type'=>'text','label'=>'Nom ', 'name'=>'nom','value'=>$category->nomCat])
                                                 <button class="btn btn-success">
                                                         @if ($category->exists)
                                                             Modifier

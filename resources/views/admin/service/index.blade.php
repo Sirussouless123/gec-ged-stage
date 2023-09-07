@@ -76,7 +76,7 @@
                 </div>
                 <div class="QA_table ">
 @if (Session::has("success"))
-    <div class="alert alert-success alert-dismissible fade show" role="alert"">
+    <div class="alert alert-success alert-dismissible fade show" role="alert" >
         {{session('success')}}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
@@ -117,7 +117,7 @@
                                    <form action="{{route('admin.service.destroy',['service'=>$service->idSer])}}" method="post">
                    @csrf
                    @method('delete')
-                                    <button class="btn btn-danger">
+                                    <button class="btn btn-danger"  onclick="return confirm('Voulez-vous vraiment supprimer ?')">
                                         Supprimer
                                     </button>
                                    </form>

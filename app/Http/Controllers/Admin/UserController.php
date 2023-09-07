@@ -39,7 +39,7 @@ class UserController extends Controller
                 'dateNaissance'=>$data['dateNaissance'],
                 'villeNaissance'=>$data['villeNaissance'],
                 'cree_a'=>now('Africa/Casablanca'),
-                'service_id'=>$data['service_id'],
+                'service_id'=>$data['service'],
             ]);
             if ($create->exists){
      return to_route('admin.user.index');

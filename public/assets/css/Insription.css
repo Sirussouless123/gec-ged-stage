@@ -5,6 +5,7 @@
     align-items: center;
     justify-content: center;
   
+  
 }
 .container-ins {
     position: relative;
@@ -16,6 +17,7 @@
     background-color: #fff;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
     margin-left: 200px;
+  
 }
 .container-ins .head {
     position: relative;
@@ -132,6 +134,7 @@ form button:hover {
 @media (max-width: 750px) {
     .container-ins form {
         overflow-y: scroll;
+      
     }
     .container-ins form::-webkit-scrollbar{
         display: none;
@@ -141,7 +144,7 @@ form button:hover {
     }
     
 }
-@media (max-width: 550px) {
+@media (max-width: 881px) {
     form .fields .input-field {
         width: 100%;
     }

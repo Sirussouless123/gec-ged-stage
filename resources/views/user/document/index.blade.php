@@ -1,103 +1,3 @@
-{{-- @extends('layouts.app')
-
-@section('title', 'Documents')
-
-@section('links')
-    <link rel="stylesheet" href="{{ asset('assets/css/card.css') }}" />
-
-@endsection
-@section('content')
-
-<div class="container-fluid my-3 ">
-
-
-    <div class="row g-5 ">
-
-        @foreach ($documents as $document)
-        <div class=" col-xl-6 col-lg-6 col-md-6  ">
-            <div class="card ">
-              <div class="image-content">
-                <span class="overlay"></span>
-                @php
-                    $image ='text-3.png';
-                    if ($document->formatDoc == 'pdf'){
-                        $image = 'pdf-1.png';
-                    }elseif($document->formatDoc == 'docx'){
-                        $image = 'word-1.png';
-                    }
-                    elseif($document->formatDoc == 'xlsx'){
-                        $image = 'excel-1.png';
-                    }
-                    elseif($document->formatDoc == 'csv'){
-                        $image = 'csv-1.png';
-                    }
-                    elseif($document->formatDoc == 'xml'){
-                        $image = 'xml-2.png';
-                    }
-
-             
-                @endphp
-  
-                <div class="card-image">
-                  <img src="{{ asset('assets/img/'.$image)}}" alt="" class="card-img" />
-                </div>
-              </div>
-             
-              <div class="card-content">
-                <h2 class="name">Documents</h2>
-                <h2 class="name badge rounded-pill text-bg-primary">Version {{$document->numeroVersion}}</h2>
-                <p>Nom : {{$document->nomDoc}}</p>
-                <div x-data="{ option: false }" >
-                              
-                    <button class="button-7 "  @click="option = !option" >Options</button>
-                    <div x-show="option" x-cloak>
-                        <div class="d-flex   justify-content-between my-2 gap-5 ">
-
-                            <a href="{{ route('user.document.edit', ['document' => $document->idDoc]) }}"
-                                style="text-decoration:none;color : black; " class='bx bxs-folder mt-1'>
-                            </a>
-
-
-
-                            <a href="{{ route('user.downloading', ['document' => $document->idDoc]) }}"
-                                style="text-decoration:none;color : black; " class='bx bxs-download mt-1'>
-                            </a>
-
-                            <form action="{{ route('user.document.destroy', ['document' => $document->idDoc]) }}"
-                                method="post">
-                                @csrf
-                                @method('delete')
-                                <button class='bx bxs-trash'
-                                    style=" background: none;color: black;border: none; padding: 0;font: inherit; cursor: pointer; outline: inherit; "
-                                    class="mb-5">
-                                </button>
-
-
-                            </form>
-               
-                        </div>
-
-                    </div>
-
-
-                </div>
-              </div>
-            </div>
-          </div>
-        @endforeach
-
-
-    </div>
-</div>
-
-
-
-@endsection
-
-@section('js')
-
-@endsection --}}
-
 @extends('layouts.app')
 
 @section('title', 'Documents')
@@ -159,7 +59,7 @@
                             <h5>{{$infos->nom}} {{$infos->prenom}}</h5>
                             <div class="profile_info_details">
                                 @if($admin->statut == 1)
-                                <a href="{{route('admin.home')}}">Dashboard <i class="fa-regular fa-house"></i></a>
+                                <a href="{{route('admin.home')}}">Dashboard <i class="fa-solid fa-house"></i></a>
                                 @endif
                                 <a href="{{route('user.profil',['user'=>$infos->id])}}">Mon profil <i class="fa-regular fa-user"></i></a>
                                 <a href="{{route('logout')}}">Déconnexion <i class="ti-shift-left"></i></a>
@@ -178,7 +78,7 @@
         <div class="main_content_iner ">
             <div class="container-fluid plr_30 body_white_bg pt_30">
                 <div class="row justify-content-center">
-                    <div class="col-md-3">
+                    <div class="col-md-3 d-none d-lg-block">
                         {{-- <div class="text-start">
                             <button class="btn_1 mb-2 btn-lg email-gradient gradient-9-hover email__btn waves-effect"><i
                                     class="icon-pencil"></i>COMPOSE</button>
@@ -247,9 +147,9 @@
                                        
                                        
                       
-                                        <tr>
+                                        <tr class="overflow-auto">
                                            
-                                             @foreach($documents as $document)
+                                             @forelse($documents as $document)
                                         @php
                                         $image ='text-3.png';
                                         if ($document->formatDoc == 'pdf'){
@@ -263,37 +163,48 @@
                                         elseif($document->formatDoc == 'csv'){
                                             $image = 'csv-1.png';
                                         }
-                                        elseif($document->formatDoc == 'xml'){
-                                            $image = 'xml-2.png';
-                                        } elseif($document->formatDoc == 'zip' || $document->formatDoc == 'rar' ){
+                                       elseif($document->formatDoc == 'zip' || $document->formatDoc == 'rar' ){
                                             $image = 'zip.jpg';
-                                        }elseif ($document->formatDoc == 'pptx') {
-                                            $image = 'pptx.jpg';
+                                        }elseif($document->formatDoc == 'pptx') {
+                                            $image = 'pptx.png';
                                         }
-                    
+                                    
                                  
                                     @endphp
 
                                             <td class="d-flex justify-content-center">
-                                                <div class="card" style="max-width: 540px;">
+                                                <div class="card d-none d-lg-block" style="max-width: 540px;">
                                                     <div class="row g-0">
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-4 ">
                                                             <img src="{{ asset('assets/img/'.$image) }}"
                                                                 class="img-fluid rounded-start">
                                                         </div>
-                                                        <div class="col-md-8">
+                                                        <div class="col-md-8  ">
                                                             <div class="card-body">
-                                                                <h5 class="card-title">{{$document->nomDoc.'.'.$document->formatDoc}}</h5>
-                                                                <p class="card-text"><small class="text-muted">{{$document->dateVersion}}</small></p>
-                                                                <p class="card-text"> <span class="badge bg-primary">Version {{$document->numeroVersion}}</span></p>
+                                                                <h5 class="card-title  ">{{$document->nomDoc.'.'.$document->formatDoc}}</h5>
+                                                                <p class="card-text "><small class="text-muted">{{$document->dateVersion}}</small></p>
+                                                                <p class="card-text "> <span class="badge bg-primary">Version {{$document->numeroVersion}}</span></p>
                                                                 <a href="{{route('user.document.search',['document'=>$document])}}" style="text-decoration:none;color:white;" class="btn btn-primary text-center " >Plus d'infos</a>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                                <div class="d-lg-none" >
+                                                    <h5 class="text-center">{{$document->nomDoc.'.'.$document->formatDoc}}</h5>
+                                                    <div class="d-flex justify-content-center">
+
+                                                        <p class="badge bg-primary " >Version {{$document->numeroVersion}}</p>
+                                                    </div>
+                                                    <div>
+                                                        <a href="{{route('user.document.search',['document'=>$document])}}" style="text-decoration:none;color:white;" class="btn btn-primary text-center " >Plus d'infos</a>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
-                                        @endforeach
+                                        @empty
+                                        <p>Aucun document disponible </p>
+                                        @endforelse
                                         {{ $documents->links() }}
 
                                     </tbody>

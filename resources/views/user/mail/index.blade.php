@@ -70,9 +70,9 @@ $report = DB::table('categories')
                                 @php 
                                 $admin = DB::table('users')->where('id',session('loginId'))->select('users.statut')->first();
                               @endphp
-                                @if($admin->statut == 1)
-                                <a href="{{route('admin.home')}}">Dashboard <i class=" fa-house"></i></a>
-                                @endif
+                                  @if($admin->statut == 1)
+                                  <a href="{{route('admin.home')}}">Dashboard <i class="fa-solid fa-house"></i></a>
+                                  @endif
                                 <a href="{{route('user.profil',['user'=>$infos->id])}}">Mon profil <i class="fa-regular fa-user"></i></a>
                                 <a href="{{route('logout')}}">Déconnexion <i class="ti-shift-left"></i></a>
                             </div>
@@ -90,7 +90,7 @@ $report = DB::table('categories')
         <div class="main_content_iner ">
             <div class="container-fluid plr_30 body_white_bg pt_30">
                 <div class="row justify-content-center">
-                    <div class="col-md-3">
+                    <div class="col-md-3 d-none d-lg-block">
                         <div class="email-sidebar pt-3">
                             <h4>Menu</h4>
                             @php 
@@ -104,11 +104,14 @@ $report = DB::table('categories')
                             <ul class="text-start mb-3">
                                 <li class="{{str_contains($route,'category') ?  'active' : ''}}">
                                     <a dropdown-toggle href="{{route('user.mail.index')}}"  data-bs-toggle="dropdown"
-                                        aria-expanded="false" data-bs-auto-close="outside" ><i class="ti-user"></i> Catégorie de documents ({{$nbCat}})</a>
+                                        aria-expanded="false" data-bs-auto-close="outside" ><i class="ti-user"></i> Catégorie de mails ({{$nbCat}})</a>
                                     <ul class="dropdown-menu">
                                        
                                         <li ><a style="color: black " class="dropdown-item" href="{{route('user.mail.category',['category'=>$favorite->idCat])}}">Favoris</a></li>
                                         <li><a style="color: black " class="dropdown-item" href="{{route('user.mail.category',['category'=>$report->idCat])}}">Importants</a></li>
+                                        @foreach ($categories as $category)
+                                        <li ><a style="color: black " class="dropdown-item" href="{{route('user.mail.category',['category'=>$category->idCat])}}">{{$category->nomCat}}</a></li>
+                                        @endforeach
                                       
                                       
                                     </ul>
@@ -151,14 +154,11 @@ $report = DB::table('categories')
 
                                 <table class="table lms_table_active">
                                    
-                                    <tbody>
 
-                                       
-                                       
-                      
                                         <tr>
                                            
-                                             @foreach($mails as $mail)
+                                             @forelse($mails as $mail)
+
                                         @php
                                         $image ='text-3.png';
                                         if ($mail->formatMail == 'pdf'){
@@ -171,19 +171,16 @@ $report = DB::table('categories')
                                         }
                                         elseif($mail->formatMail == 'csv'){
                                             $image = 'csv-1.png';
-                                        }
-                                        elseif($mail->formatMail == 'xml'){
-                                            $image = 'xml-2.png';
-                                        }
-                    
-                                 
+                                        }elseif($mail->formatMail == 'pptx') {
+                                         $image = 'pptx.png';
+                                        }             
                                     @endphp
 
-                                            <td class="d-flex justify-content-center">
-                                                <div class="card" style="max-width: 540px;">
+                                            <td class="d-flex justify-content-center ">
+                                                <div class="card  d-none d-lg-block" style="max-width: 540px;">
                                                     <div class="row g-0">
                                                         <div class="col-md-4">
-                                                            <img src="{{ asset('assets/img/'.$image) }}"
+                                                            <img src="/assets/img/{{$image}}"
                                                                 class="img-fluid rounded-start">
                                                         </div>
                                                         <div class="col-md-8">
@@ -195,9 +192,21 @@ $report = DB::table('categories')
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="d-lg-none" > 
+                                        <h5 class="text-center">
+                                            {{$mail->nomMail.'.'.$mail->formatMail}}
+                                        </h5>
+                                        <p class="text-center"><small class="text-muted">{{$mail->dateDepot}}</small></p>
+                                       <div>
+                                        <a href="{{route('user.mail.search',['mail'=>$mail])}}" style="text-decoration:none;color:white;" class="btn btn-primary text-center " >Plus d'infos</a>
+                                       </div>
+
+                                                </div>
                                             </td>
                                         </tr>
-                                        @endforeach
+                                        @empty
+                                          <p>Aucun courrier disponible </p>
+                                        @endforelse
                                         {{ $mails->links() }}
 
                                     </tbody>

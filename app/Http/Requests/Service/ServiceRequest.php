@@ -22,8 +22,8 @@ class ServiceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nomSer'=>'required|min:2|unique:services,nomSer',
-            'department_id'=> 'required|exists:departments,idDep',
+            'nom'=>'required|min:2|unique:services,nomSer',
+            'departement'=> 'required|exists:departments,idDep',
         ];
     }
 }

@@ -11,6 +11,8 @@ use App\Http\Requests\loginRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SignupRequest;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+
 
 class AuthentificationController extends Controller
 {
@@ -40,7 +42,7 @@ class AuthentificationController extends Controller
                     'dateNaissance'=>$data['dateNaissance'],
                     'villeNaissance'=>$data['villeNaissance'],
                     'cree_a'=>$data['cree_a'],
-                    'service_id'=>$data['service_id'],
+                    'service_id'=>$data['service'],
                   ]);
                   if($user->exists()){
                       return to_route('login')->with('success','Vous êtes inscrit. Connectez-vous');
@@ -70,7 +72,6 @@ class AuthentificationController extends Controller
                         'statut'=>$user->statut,
                     ]
                 );
-              
               if ($request->session()->has('statut') && session('statut') == 1){
              return to_route('admin.home');
               }else{
@@ -79,7 +80,7 @@ class AuthentificationController extends Controller
               }
                
             }else {
-                return back()->with('fail', "Ce mot de passe n'est pas valide");
+                return back()->with('fail', "Mot de passe incorrect");
             }
         }else {
             return back()->with('fail', "Identifiants erronés");

@@ -112,7 +112,7 @@
                                    <form action="{{route('admin.department.destroy',['department'=>$department])}}" method="post">
                    @csrf
                    @method('delete')
-                                    <button class="btn btn-danger">
+                                    <button class="btn btn-danger"  onclick="return confirm('Voulez-vous vraiment supprimer ?')">
                                         Supprimer
                                     </button>
                                    </form>

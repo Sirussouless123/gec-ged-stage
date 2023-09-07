@@ -34,9 +34,9 @@
                             <div class="input-field">
                                 <label for="nomDoc">Nom </label>
                                 <input type="text" placeholder="Nom du document"
-                                    value="{{ old('nomDoc') ? old('nomDoc') : $document->nomDoc }}" name="nomDoc">
+                                    value="{{ old('nom') ? old('nom') : $document->nomDoc }}" name="nom">
                                 <span style="color: red;">
-                                    @error('nomDoc')
+                                    @error('nom')
                                         {{ $message }}
                                     @enderror
                                 </span>
@@ -62,7 +62,7 @@
 
                             <div class="input-field">
                                 <label for="document">Document</label>
-                                <input type="file" name="document" id="document">
+                                <input type="file" name="fichier" id="document">
                                 <span style="color:red;">
                                     @error('document')
                                         {{ $message }}
@@ -93,13 +93,13 @@
 
                             <div class="input-field">
                                 <label for="service">Service</label>
-                                <select name="service_id" id="service">
+                                <select name="service" id="service">
                                     @foreach ($services as $service)
                                         <option value="{{ $service->idSer }}">{{ $service->nomSer }}</option>
                                     @endforeach
                                 </select>
                                 <span style="color:red;">
-                                    @error('service_id')
+                                    @error('service')
                                         {{ $message }}
                                     @enderror
                                 </span>

@@ -57,6 +57,7 @@ Route::prefix('user')->name('user.')->middleware(['isAdmin'])->group( function()
    Route::get('/profil/{user}',[DocumentController::class,'showProfile'])->name('profil');
    Route::post('document/convert',[wordToPdfController::class,'convert'])->name('document.convert');
    Route::post('mail/convert',[wordToPdfController::class,'convertMail'])->name('mail.convert');
+   #Route::post('/mail/addCategory/{category}/{document}',[MailController::class,'addTo'])
 });
 
 

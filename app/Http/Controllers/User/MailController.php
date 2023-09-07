@@ -25,6 +25,7 @@ class MailController extends Controller
         $nbMail = DB::table('mails')->where('user_id',session('loginId'))->count();
         $nbCat = DB::table('categories')->count();
         $services = Service::all();
+        $categories = Category::where('nomCat','<>','Favoris')->Where('nomCat','<>','Importants')->get();
 
         return view('user.mail.index', [
             'mails' => $mails,
@@ -33,6 +34,7 @@ class MailController extends Controller
             'newMail' => new Mail,
             'services'=> $services,
             'nbSer'=>count($services),
+            'categories'=>$categories,
         ]);
     }
 
@@ -52,33 +54,29 @@ class MailController extends Controller
     public function store(MailRequest $request)
     {
          /** @var UploadedFile  $document*/
-         $document = $request->validated('document');
+         $document = $request->validated('fichier');
          $format = $document->getClientOriginalExtension();
          $taille = $document->getSize();
          $date = date('Y-m-d');
          $heure = now();
  
          $data = $request->validated();
-         if ($format == 'pdf' || $format == 'docx' || $format == 'xlsx ' || $format == 'pptx' || $format =='zip' ||$format =='rar' || $format == 'txt' || $format == 'csv' || $format == 'xml'){
+         if ($format == 'pdf' || $format == 'docx' || $format == 'xlsx ' || $format == 'pptx' || $format =='zip' ||$format =='rar' || $format == 'txt' || $format == 'csv' ){
 
-
-             
-                         $document->storeAs('cour_'.session('loginId'), $data['nomMail'].".".$format,'public');
-             
-             
+                         $document->storeAs('cour_'.session('loginId'), $data['nom'].".".$format,'public');
                          $create = Mail::create([
-                             'nomMail'=>$data['nomMail'],
+                             'nomMail'=>$data['nom'],
                              'formatMail'=>$format,
                              'dateDepot'=>$date,
                              'heureDepot'=>$heure,
-                             'service_id'=>$data['service_id'],
+                             'service_id'=>$data['service'],
                              'user_id'=>session('loginId'),
                          ]);
                          if ($create->exists()){
                              return to_route('user.mail.index');
                      }
          }else{
-            return back()->with('fail','Choisissez un document au format correct(docx,pptx,csv,zip,rar,xlsx,pdf,txt,xml)');
+            return back()->with('fail','Choisissez un document au format correct(docx,pptx,csv,zip,rar,xlsx,pdf,txt)');
          }
     }
 
@@ -95,6 +93,10 @@ class MailController extends Controller
      */
     public function edit(Mail $mail)
     {
+        
+        if (!($mail->user_id == session('loginId')) ){
+            abort(403, 'Unauthorized.');
+       }
           return view('user.mail.form',[
             'mail'=>$mail,
             'services'=>Service::all(),
@@ -107,9 +109,12 @@ class MailController extends Controller
     public function update(Mail $mail, MailRequest $request)
     {
        
+        if (!($mail->user_id == session('loginId')) ){
+            abort(403, 'Unauthorized.');
+       }
         $data = $request->validated();
      
-        $documentUpdate = $request->validated('document');
+        $documentUpdate = $request->validated('fichier');
          $format = $documentUpdate->getClientOriginalExtension();
          $date = date('Y-m-d');
          $heure = now();
@@ -119,28 +124,26 @@ class MailController extends Controller
             Storage::disk('public')->delete('cour_'.session('loginId').'/'.$oldname);
         }
           
-        if ($format == 'pdf' || $format == 'docx' || $format == 'xlsx ' || $format == 'pptx' || $format =='zip' ||$format =='rar' || $format == 'txt' || $format == 'csv' || $format == 'xml'){
+        if ($format == 'pdf' || $format == 'docx' || $format == 'xlsx ' || $format == 'pptx' || $format =='zip' ||$format =='rar' || $format == 'txt' || $format == 'csv' ){
 
             
-            $documentUpdate->storeAs('cour_'.session('loginId'), $data['nomMail'].".".$format,'public');
+            $documentUpdate->storeAs('cour_'.session('loginId'), $data['nom'].".".$format,'public');
             
             $update = DB::table('mails')->where('idMail',$mail->idMail)->update([
-                'nomMail'=>$data['nomMail'],
+                'nomMail'=>$data['nom'],
                 'formatMail'=>$format,
                 'dateDepot'=>$date,
                 'heureDepot'=>$heure,
-                'service_id'=>$data['service_id'],
+                'service_id'=>$data['service'],
                 'user_id'=>session('loginId'),
             ]);
-    
-         
             if ($update == 1 ){
                    return to_route('user.mail.index');
             }else{
              return to_route('user.mail.index');
             }
         }else{
-            return back()->with('fail','Choisissez un document au format correct(docx,pptx,csv,zip,rar,xlsx,pdf,txt,xml)'); 
+            return back()->with('fail','Choisissez un document au format correct(docx,pptx,csv,zip,rar,xlsx,pdf,txt)'); 
         }
 
            
@@ -153,6 +156,10 @@ class MailController extends Controller
      */
     public function destroy(Mail $mail)
     {
+        
+        if (!($mail->user_id == session('loginId')) ){
+            abort(403, 'Unauthorized.');
+       }
         $name = $mail->nomMail.'.'.$mail->formatMail;
 
         if(Storage::disk('public')->exists('cour_'.session('loginId').'/'.$name) == true){
@@ -171,6 +178,10 @@ class MailController extends Controller
         }
 
         public function download(Mail $mail){
+            
+        if (!($mail->user_id == session('loginId')) ){
+            abort(403, 'Unauthorized.');
+       }
             $name = $mail->nomMail.'.'.$mail->formatMail;
             $path = 'storage/cour_'.session('loginId');
             return response()->download(public_path($path.'/'.$name), $name);
@@ -185,6 +196,7 @@ class MailController extends Controller
         $nbMail = DB::table('mails')->where('user_id',session('loginId'))->count();
         $nbCat = DB::table('categories')->count();
         $services = Service::all();
+        $categories = Category::where('nomCat','<>','Favoris')->Where('nomCat','<>','Importants')->get();
 
         return view('user.mail.index', [
             'mails' => $mails,
@@ -193,6 +205,7 @@ class MailController extends Controller
             'newMail' => new Mail,
             'services'=> $services,
             'nbSer'=>count($services),
+            'categories'=>$categories,
         ]);
         }
 
@@ -202,6 +215,7 @@ class MailController extends Controller
             $nbMail = DB::table('mails')->where('user_id',session('loginId'))->count();
             $nbCat = DB::table('categories')->count();
             $services = Service::all();
+            $categories = Category::where('nomCat','<>','Favoris')->Where('nomCat','<>','Importants')->get();
 
             return view('user.mail.index', [
                 'mails' => $mails,
@@ -210,6 +224,7 @@ class MailController extends Controller
                 'newMail' => new Mail,
                 'services'=> $services,
                 'nbSer'=>count($services),
+                'categories'=>$categories,
             ]);
           }
 
@@ -242,6 +257,7 @@ class MailController extends Controller
               $nbMail = DB::table('mails')->where('user_id',session('loginId'))->count();
               $nbCat = DB::table('categories')->count();
               $services = Service::all();
+              $categories = Category::where('nomCat','<>','Favoris')->Where('nomCat','<>','Importants')->get();
               
       
               return view('user.mail.index', [
@@ -251,14 +267,21 @@ class MailController extends Controller
                 'newMail' => new Mail,
                 'services'=> $services,
                 'nbSer'=>count($services),
+                'categories'=>$categories,
               ]);
           }
 
      public function showSearch(Mail $mail){
+        
+        if (!($mail->user_id == session('loginId')) ){
+            abort(403, 'Unauthorized.');
+       }
 
         $nbMail = DB::table('mails')->where('user_id',session('loginId'))->count();
         $nbCat = DB::table('categories')->count();
         $services = Service::all();
+        $categories = Category::where('nomCat','<>','Favoris')->Where('nomCat','<>','Importants')->get();
+       
            return view('user.mail.show',[
             'mail' => $mail,
             'nbMail' => $nbMail,
@@ -266,6 +289,7 @@ class MailController extends Controller
             'newMail' => new Mail,
             'services'=> $services,
             'nbSer'=>count($services),
+            'categories'=>$categories,
            ]);
      }
 }

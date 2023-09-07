@@ -56,8 +56,8 @@
     @endphp
 
     <nav class="sidebar">
-        <div class="logo bg-secondary d-flex justify-content-between">
-            <a href="{{ route('admin.home') }}" class="mx-4" style="text-decoration:none;">GED-GEC</a>
+        <div class="logo ">
+            <a href="{{ route('admin.home') }}" ><img src="{{asset('assets/img/logo-4.png')}}" alt=""  class="  d-none d-lg-block"></a>
             <div class="sidebar_close_icon d-lg-none">
                 <i class="ti-close"></i>
             </div>
@@ -111,6 +111,7 @@
                                 <p>Welcome Admin!</p>
                                 <h5>{{ $infos->nom }} {{ $infos->prenom }}</h5>
                                 <div class="profile_info_details">
+                                    <a href="{{route('admin.home')}}">Dashboard <i class="fa-solid fa-house"></i></a>
                                     <a href="{{ route('user.profil', ['user' => $infos->id]) }}">Mon profil <i
                                             class="fa-regular fa-user"></i></a>
                                     <a href="{{ route('logout') }}">Déconnexion <i class="ti-shift-left"></i></a>

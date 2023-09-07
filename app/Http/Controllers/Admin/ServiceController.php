@@ -41,7 +41,7 @@ class ServiceController extends Controller
         $data = $request->validated();
       
         $service = Service::create(
-           [ 'nomSer' =>$data['nomSer'],'department_id'=>$data['department_id']]
+           [ 'nomSer' =>$data['nom'],'department_id'=>$data['departement']]
         );
 
         if ($service->exists){
@@ -78,7 +78,7 @@ class ServiceController extends Controller
        
        $update =  DB::table('services')
               ->where('idSer', $service->idSer)
-              ->update(['nomSer' => $data['nomSer'],'department_id'=>$data['department_id']]);
+              ->update(['nomSer' => $data['nom'],'department_id'=>$data['departement']]);
            
          if ($update == 1){
                return to_route('admin.service.index')->with( 'success','Service modifié avec succès');

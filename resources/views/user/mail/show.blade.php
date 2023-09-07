@@ -59,7 +59,9 @@
                                         href="{{ route('user.mail.showFormat', ['format' => 'service']) }}">Par service</a>
                                 </li>
                             </ul>
-
+                            @php 
+                            $admin = DB::table('users')->where('id',session('loginId'))->select('users.statut')->first();
+                          @endphp
 
                     </ul>
                     <div class="profile_info" style="z-index :200">
@@ -73,8 +75,11 @@
                             <p>Bienvenue utilisateur</p>
                             <h5>{{ $infos->nom }} {{ $infos->prenom }}</h5>
                             <div class="profile_info_details">
+                                @if($admin->statut == 1)
+                                <a href="{{route('admin.home')}}">Dashboard <i class="fa-solid fa-house"></i></a>
+                                @endif
                                 <a href="{{ route('user.user.edit', ['user' => $infos->id]) }}">Mon profil <i
-                                        class="ti-user"></i></a>
+                                    class="fa-regular fa-user"></i></a>
                                 <a href="{{ route('logout') }}">Déconnexion <i class="ti-shift-left"></i></a>
                             </div>
                         </div>
@@ -91,7 +96,7 @@
         <div class="main_content_iner ">
             <div class="container-fluid plr_30 body_white_bg pt_30">
                 <div class="row justify-content-center">
-                    <div class="col-md-3">
+                    <div class="col-md-3 d-none d-lg-block">
 
                         <div class="email-sidebar pt-3">
                             <h4>Menu</h4>
@@ -112,7 +117,7 @@
                                 <li class="{{ str_contains($route, 'category') ? 'active' : '' }}">
                                     <a dropdown-toggle href="{{ route('user.mail.index') }}" data-bs-toggle="dropdown"
                                         aria-expanded="false" data-bs-auto-close="outside"><i class="ti-user"></i> Catégorie
-                                        de documents ({{ $nbCat }})</a>
+                                        de mails ({{ $nbCat }})</a>
                                     <ul class="dropdown-menu">
 
                                         <li><a style="color: black " class="dropdown-item"
@@ -121,6 +126,9 @@
                                         <li><a style="color: black " class="dropdown-item"
                                                 href="{{ route('user.mail.category', ['category' => $report->idCat]) }}">Importants</a>
                                         </li>
+                                        @foreach ($categories as $category)
+                                        <li ><a style="color: black " class="dropdown-item" href="{{route('user.mail.category',['category'=>$category->idCat])}}">{{$category->nomCat}}</a></li>
+                                        @endforeach
 
 
                                     </ul>
@@ -190,11 +198,11 @@
                                 aria-labelledby="infos-tab" tabindex="0">
                                 <h4 class="text-center">{{ $mail->nomMail . '.' . $mail->formatMail }}</h4>
                                 <div class="d-flex gap-1 gy-2 flex-column v-stack mt-2">
-                                    <h6>Nom du courrier : {{ $mail->nomMail }}</h6>
-                                    <h6>Format du courrier : {{ $mail->formatMail }}</h6>
-                                    <h6>Date d'ajout du courrier : {{ $mail->dateDepot }}</h6>
-                                    <h6>Date de dernière modification : {{ $mail->updated_at }}</h6>
-                                    <h6>Service : {{ $nomSer->nomSer }}</h6>
+                                    <h6><strong>Nom du courrier : </strong>  {{ $mail->nomMail }}</h6>
+                                    <h6><strong>Format du courrier :  </strong>{{ $mail->formatMail }}</h6>
+                                    <h6><strong>Date d'ajout du courrier :  </strong>{{ $mail->dateDepot }}</h6>
+                                    <h6><strong>Date de dernière modification :  </strong>{{ $mail->updated_at }}</h6>
+                                    <h6><strong>Service :  </strong>{{ $nomSer->nomSer }}</h6>
                                 </div>
                             </div>
 
@@ -272,6 +280,12 @@
                                         <h6>Ajouter/Supprimer des importants : </h6>
                                         <livewire:report :mail="$mail->idMail" :report="$report->idCat" />
                                     </div>
+                                    @foreach ($categories as $category)          
+                                    <div class="d-flex gap-2" x-data>
+                                        <h6>Ajouter/Supprimer aux {{ strtolower($category->nomCat )}} : </h6>
+                                        <livewire:add-to-category :mail="$mail->idMail" :category="$category->idCat" />
+                                    </div>
+                                    @endforeach
                                     @if ($verif == true)
                                         <div class="d-flex gap-1 gy-2 flex-column v-stack mt-2 justify-content-center">
                                             <h4 class="text-center">Word en Pdf</h4>

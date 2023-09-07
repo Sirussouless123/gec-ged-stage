@@ -51,8 +51,8 @@
             @csrf
           
                                         <div class>
-                                            @include('shared.input', ['type'=>'text','label'=>'Nom du service', 'name'=>'nomSer','value'=>$service->nomSer])
-                                            @include('shared.select',[ 'label'=>'Département', 'name'=>'department_id', 'options'=>$departments])
+                                            @include('shared.input', ['type'=>'text','label'=>'Nom du service', 'name'=>'nom','value'=>$service->nomSer])
+                                            @include('shared.select',[ 'label'=>'Département', 'name'=>'departement', 'options'=>$departments])
                                                 <button class="btn btn-success mt-3">
                                                         @if ($service->exists)
                                                             Modifier

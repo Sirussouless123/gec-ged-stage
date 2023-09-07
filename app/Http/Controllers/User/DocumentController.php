@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\User\DocumentRequest;
 
+
 class DocumentController extends Controller
 {
     /**
@@ -20,7 +21,7 @@ class DocumentController extends Controller
      */
     public function index()
     {
-
+        
         $documents = Document::OrderBy('created_at', 'desc')->where('user_id',session('loginId'))->paginate(2);
         $nbDoc = DB::table('documents')->where('user_id',session('loginId'))->count();
         $types = DB::table('documents')->where('user_id', session('loginId'))->select('documents.type')->distinct()->get();
@@ -58,9 +59,9 @@ class DocumentController extends Controller
 
     public function store(DocumentRequest $request)
     {
-
+           
         /** @var UploadedFile  $document*/
-        $document = $request->validated('document');
+        $document = $request->validated('fichier');
 
         $format = $document->getClientOriginalExtension();
         $taille = $document->getSize();
@@ -70,24 +71,24 @@ class DocumentController extends Controller
         $data = $request->validated();
 
 
-        $verif = DB::table('documents')->where('numeroVersion', $data['numeroVersion'])->where('nomDoc', $data['nomDoc'])->where('user_id',session('loginId'))->exists();
+        $verif = DB::table('documents')->where('numeroVersion', $data['numeroVersion'])->where('nomDoc', $data['nom'])->where('user_id',session('loginId'))->exists();
 
         if ($verif == true) {
             return to_route('user.document.create')->with('fail', 'Changez la version du document ');
         } else {
             if ($format == 'pdf' || $format == 'docx' || $format == 'xlsx ' || $format == 'pptx' || $format =='zip' ||$format =='rar' || $format == 'txt' || $format == 'csv' ){
                 
-                $document->storeAs('doc_' . session('loginId'), $data['nomDoc'] . '-version-' . $data['numeroVersion'] . "." . $format, 'public');
+                $document->storeAs('doc_' . session('loginId'), $data['nom'] . '-version-' . $data['numeroVersion'] . "." . $format, 'public');
     
     
                 $create = Document::create([
-                    'nomDoc' => $data['nomDoc'],
+                    'nomDoc' => $data['nom'],
                     'formatDoc' => $format,
                     'dateVersion' => $dateVersion,
                     'numeroVersion' => $data['numeroVersion'],
                     'taille' => $taille,
                     'type' => $data['type'],
-                    'service_id' => $data['service_id'],
+                    'service_id' => $data['service'],
                     'user_id' => session('loginId'),
                     'description' => $data['description'],
                 ]);
@@ -113,6 +114,10 @@ class DocumentController extends Controller
      */
     public function edit(Document $document)
     {
+
+        if (!($document->user_id == session('loginId')) ){
+             abort(403, 'Unauthorized.');
+        }
         $services = Service::all();
         return view('user.document.form', [
             'document' => $document,
@@ -125,9 +130,12 @@ class DocumentController extends Controller
      */
     public function update(Document $document, DocumentRequest $request)
     {
-        $data = $request->validated();
 
-        $documentUpdate = $request->validated('document');
+        if (!($document->user_id == session('loginId')) ){
+            abort(403, 'Unauthorized.');
+       }
+        $data = $request->validated();
+        $documentUpdate = $request->validated('fichier');
         $format = $documentUpdate->getClientOriginalExtension();
         $taille = $documentUpdate->getSize();
         $date = date('Y-m-d');
@@ -136,19 +144,19 @@ class DocumentController extends Controller
             Storage::disk('public')->delete('doc_' . session('loginId') . '/' . $oldname);
         }
 
-        if ($format == 'pdf' || $format == 'docx' || $format == 'xlsx ' || $format == 'pptx' || $format =='zip' ||$format =='rar' || $format == 'txt' || $format == 'csv' || $format == 'xml'){
+        if ($format == 'pdf' || $format == 'docx' || $format == 'xlsx ' || $format == 'pptx' || $format =='zip' ||$format =='rar' || $format == 'txt' || $format == 'csv' ){
 
 
-            $documentUpdate->storeAs('doc_' . session('loginId'), $data['nomDoc'] . "-version-" . $data['numeroVersion'] . '.' . $format, 'public');
+            $documentUpdate->storeAs('doc_' . session('loginId'), $data['nom'] . "-version-" . $data['numeroVersion'] . '.' . $format, 'public');
     
             $update = DB::table('documents')->where('idDoc', '=', $document->idDoc)->update([
-                'nomDoc' => $data['nomDoc'],
+                'nomDoc' => $data['nom'],
                 'formatDoc' => $format,
                 'dateVersion' => $date,
                 'numeroVersion' => $data['numeroVersion'],
                 'taille' => $taille,
                 'type' => $data['type'],
-                'service_id' => $data['service_id'],
+                'service_id' => $data['service'],
                 'user_id' => session('loginId'),
                 'description' => $data['description'],
             ]);
@@ -158,7 +166,7 @@ class DocumentController extends Controller
             }
         }else{
 
-            return back()->with('fail','Choisissez un document au format correct(docx,pptx,csv,zip,rar,xlsx,pdf,txt,xml)');
+            return back()->with('fail','Choisissez un document au format correct(docx,pptx,csv,zip,rar,xlsx,pdf,txt)');
         }
 
     }
@@ -170,6 +178,10 @@ class DocumentController extends Controller
      */
     public function destroy(Document $document)
     {
+
+        if (!($document->user_id == session('loginId')) ){
+            abort(403, 'Unauthorized.');
+       }
 
 
         $name = $document->nomDoc . '-version-' . $document->numeroVersion . '.' . $document->formatDoc;
@@ -192,7 +204,9 @@ class DocumentController extends Controller
 
     public function download(Document $document)
     {
-
+        if (!($document->user_id == session('loginId')) ){
+            abort(403, 'Unauthorized.');
+       }
         $name = $document->nomDoc . '-version-' . $document->numeroVersion . '.' . $document->formatDoc;
         $path = 'storage/doc_' . session('loginId');
 
@@ -202,7 +216,9 @@ class DocumentController extends Controller
     public function showSearch(Document $document)
     {
     
-     
+        if (!($document->user_id == session('loginId')) ){
+            abort(403, 'Unauthorized.');
+       }
         $nbDoc = DB::table('documents')->where('user_id',session('loginId'))->count();
         $types = DB::table('documents')->where('user_id', session('loginId'))->select('documents.type')->distinct()->get();
         $services = Service::all();
@@ -220,11 +236,10 @@ class DocumentController extends Controller
 
     public function showByType(string $type = '')
     {
-
         $verif = Document::where('type', $type)->where('user_id', session('loginId'))->exists();
-
+        
         $documents = null;
-
+        
         if ($verif == false) {
             $documents = Document::orderBy('created_at', 'desc')->where('user_id', session('loginId'))->paginate(2);
         } else {
@@ -307,6 +322,9 @@ class DocumentController extends Controller
     }
 
     public function showProfile(User $user){
+        if (!($user->id == session('loginId')) ){
+            abort(403, 'Unauthorized.');
+       }
                 return view('user.profil',['user'=>$user,'services'=>Service::all()]);
     }
 }

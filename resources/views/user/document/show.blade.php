@@ -49,7 +49,9 @@
                                         href="{{ route('user.showFormat', ['format' => 'service']) }}">Par service</a></li>
                             </ul>
 
-
+                            @php 
+                            $admin = DB::table('users')->where('id',session('loginId'))->select('users.statut')->first();
+                          @endphp
                     </ul>
                     <div class="profile_info" style="z-index :200">
                         <img src="{{ asset('assets/img/client_img.png') }}" alt="#">
@@ -62,8 +64,10 @@
                             <p>Bienvenue utilisateur</p>
                             <h5>{{ $infos->nom }} {{ $infos->prenom }}</h5>
                             <div class="profile_info_details">
-                                <a href="{{ route('user.user.edit', ['user' => $infos->id]) }}">Mon profil <i
-                                        class="ti-user"></i></a>
+                                @if($admin->statut == 1)
+                                <a href="{{route('admin.home')}}">Dashboard <i class="fa-solid fa-house"></i></a>
+                                @endif
+                                <a href="{{route('user.profil',['user'=>$infos->id])}}">Mon profil <i class="fa-regular fa-user"></i></a>
                                 <a href="{{ route('logout') }}">Déconnexion <i class="ti-shift-left"></i></a>
                             </div>
                         </div>
@@ -80,7 +84,7 @@
         <div class="main_content_iner ">
             <div class="container-fluid plr_30 body_white_bg pt_30">
                 <div class="row justify-content-center">
-                    <div class="col-md-3">
+                    <div class="col-md-3 d-none d-lg-block">
 
                         <div class="email-sidebar pt-3">
                             <h4>Menu</h4>
@@ -159,7 +163,6 @@
                                 border: 1px solid gray;
                                 width: 800px;
                                 height: 200px;
-
                                 overflow: auto;
                                 text-align: justify;
                                 padding-left: 5px;
@@ -183,14 +186,14 @@
                                 aria-labelledby="infos-tab" tabindex="0">
                                 <h4 class="text-center">{{ $document->nomDoc . '.' . $document->formatDoc }}</h4>
                                 <div class="d-flex gap-1 gy-2 flex-column v-stack mt-2">
-                                    <h6>Nom du document : {{ $document->nomDoc }}</h6>
-                                    <h6>Format du document : {{ $document->formatDoc }}</h6>
-                                    <h6>Date d'ajout du document : {{ $document->dateVersion }}</h6>
-                                    <h6>Date de dernière modification : {{ $document->updated_at }}</h6>
-                                    <h6>Version du document : {{ $document->numeroVersion }}</h6>
-                                    <h6>Service : {{ $nomSer->nomSer }}</h6>
-                                    <h6>Type du document : {{ $document->type }}</h6>
-                                    <h6>Taille : {{ round($document->taille / 1000000, 2) }} Mb</p>
+                                    <h6><strong>Nom du document : </strong>{{ $document->nomDoc }}</h6>
+                                    <h6><strong>Format du document : </strong>{{ $document->formatDoc }}</h6>
+                                    <h6><strong>Date d'ajout du document : </strong> {{ $document->dateVersion }}</h6>
+                                    <h6><strong>Date de dernière modification : </strong>{{ $document->updated_at }}</h6>
+                                    <h6><strong>Version du document : </strong>{{ $document->numeroVersion }}</h6>
+                                    <h6><strong>Service : </strong> {{ $nomSer->nomSer }}</h6>
+                                    <h6><strong>Type du document : </strong> {{ $document->type }}</h6>
+                                    <h6><strong>Taille : </strong>{{ round($document->taille / 1000000, 2) }} Mb</p>
                                 </div>
                                 <div class=" gy-2 flex-column d-none d-xl-flex">
                                     <h5 class="">Description</h5>

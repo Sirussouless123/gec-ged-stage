@@ -51,12 +51,12 @@
                                     </div>
                                     <div class>
                                         <label for="service">Service</label>
-                                        <select name="service_id" id="service" class="form-select">
+                                        <select name="service" id="service" class="form-select">
                                             @foreach ($services as $service)
                                                 <option value="{{ $service->idSer }}">{{ $service->nomSer }}</option>
                                             @endforeach
                                         </select>
-                                        @error('service_id')
+                                        @error('service')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>   @enderror

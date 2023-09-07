@@ -22,13 +22,12 @@ class CategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nomCat'=>'required|min:2|unique:categories,nomCat',
-            'user_id'=> 'required',
+            'nom'=>'required|min:2|unique:categories,nomCat',
          ];
         }
          protected function prepareForValidation(){
             $this->merge([
-                'user_id'=>2,
+                'user_id'=>session('loginId'),
             ]);
          }
     }

@@ -23,12 +23,12 @@ class DocumentRequest extends FormRequest
     {
         return [
            
-            'nomDoc'=>'required|min:2|string',
+            'nom'=>'required|min:2|string',
             'numeroVersion'=>'required|integer',
             'type'=>'required|string|min:2',
-            'document'=>'required|file',
-            'service_id'=>'required|exists:services,idSer',
-            'description'=>'required'
+            'fichier'=>'required|file',
+            'service'=>'required|exists:services,idSer',
+            'description'=>'string'
         ];
     }
 }

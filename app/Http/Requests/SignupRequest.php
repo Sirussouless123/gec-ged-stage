@@ -30,7 +30,7 @@ class SignupRequest extends FormRequest
             'villeNaissance'=>'required',
             'cree_a'=>'required',
             'cpwd'=> 'required|min:2',
-            'service_id'=>'required|exists:services,idSer',
+            'service'=>'required|exists:services,idSer',
         ];
     }
 

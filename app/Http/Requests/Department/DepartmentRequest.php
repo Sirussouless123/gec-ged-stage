@@ -22,7 +22,7 @@ class DepartmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-           'nomDep'=>'required|min:2|unique:departments,nomDep',
+           'nom'=>'required|min:2|unique:departments,nomDep',
         ];
     }
 }
